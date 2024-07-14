@@ -1,8 +1,8 @@
 import * as S from './style';
-import logohair from '../../Images/logohair.png';
-import { Person, ListRounded } from '@mui/icons-material';
+import logo from '../../assets/Images/logo.svg';
+import { Person, Menu } from '@mui/icons-material';
 import { useState } from 'react';
-import Menu from '../Menu';
+import MenuContent from '../Menu';
 
 export default function Header(props) {
 
@@ -16,18 +16,18 @@ export default function Header(props) {
     <>
       <S.Header>
         <S.ContainerLogo position="flex-start" marginLeft>
-          <ListRounded onClick={() => handleMenu()} />
+          <Menu onClick={() => handleMenu()} color='#FFF890' />
         </S.ContainerLogo>
         <S.ContainerLogo position="center">
-          <S.Logo src={logohair} />
-          <b>Hair</b>Project
+          <S.Logo src={logo} />
+          <b>Colégio</b>Sol
         </S.ContainerLogo>
         <S.ContainerLogo position="flex-end" marginRight>
           <Person />
         </S.ContainerLogo>
       </S.Header>
       {open ?
-        <Menu /> : null}
+        <MenuContent /> : null}
     </>
   )
 }

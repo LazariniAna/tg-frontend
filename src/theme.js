@@ -1,10 +1,14 @@
 export const colors = {
-  primary: '#3C9A9A',
-  secondary: '#8ECBCC',
+  primary: '#00249C',
+  secondary: '#FFF890',
   primaryDark: '#781047',
   dark: '#201B21',
+  dark: "rgb(100, 150, 161)",
   darkTransparent: "rgba(4, 70, 81, 0.223)",
   background: '#2D2D2D',
-  primaryLight: '#EEF0F2',
-  light: '#FAFAFF'
+  primaryLight: '#99B2DD',
+  light: '#FAFAFF',
+  purple: '#B298DC',
+  orange: '#DD6031',
+  pink: '#C45BAA',
 };
