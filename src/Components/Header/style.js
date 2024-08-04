@@ -4,15 +4,15 @@ import {colors} from '../../theme';
 export const Header = styled.div`
 width: 100%;
 height: 70px;
-background-color: ${colors.secondary};
+background-color: ${colors.primary};
 display: flex;
 justify-content: space-between;
 align-items: center;
 `;
 
 export const Logo = styled.img`
-width: 60px;
-height: 60px;
+min-width: 100px;
+height: 100px;
 margin-right: 10px;
 `;
 

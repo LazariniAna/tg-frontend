@@ -44,8 +44,10 @@ export const VerticalBar = styled.div`
 
 export const LinkPage = styled.a`
 text-decoration:none;
+color:#fff;
+
 
 &&:visited{
-  color: ${colors.light};
+  color: ${colors.light || '#fff'};
 }
 `; 
