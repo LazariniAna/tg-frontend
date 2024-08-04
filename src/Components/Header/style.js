@@ -11,13 +11,13 @@ align-items: center;
 `;
 
 export const Logo = styled.img`
-min-width: 100px;
-height: 100px;
+min-width: 70px;
 margin-right: 10px;
 `;
 
 export const ContainerLogo = styled.div`
 display: flex;
+color: #FFF;
 align-items: center;
 font-size: 25px;
 margin-left: ${(props) => (props.marginLeft ? '15px' : '0')};
@@ -25,6 +25,9 @@ margin-right: ${(props) => (props.marginRight? '15px' : '0')};
 justify-content: ${(props) => (`${props.position}`)};
 font-style: italic;
 width: 30%;
+svg{
+  color: #FFF890;
+}
 
 svg{
   font-size: 40px;

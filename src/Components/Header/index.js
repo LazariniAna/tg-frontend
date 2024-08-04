@@ -1,5 +1,5 @@
 import * as S from './style';
-import logohair from '../../Images/logo.svg';
+import logo from '../../assets/Images/logo.svg';
 import { Person, Menu } from '@mui/icons-material';
 import { useState } from 'react';
 import MenuContent from '../Menu';
@@ -16,10 +16,10 @@ export default function Header(props) {
     <>
       <S.Header>
         <S.ContainerLogo position="flex-start" marginLeft>
-          <Menu onClick={() => handleMenu()} />
+          <Menu onClick={() => handleMenu()} color='#FFF890' />
         </S.ContainerLogo>
         <S.ContainerLogo position="center">
-          <S.Logo src={logohair} />
+          <S.Logo src={logo} />
           <b>Colégio</b>Sol
         </S.ContainerLogo>
         <S.ContainerLogo position="flex-end" marginRight>
