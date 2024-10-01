@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --unforeground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 255, 255, 255;
+    --background-end-rgb: 255, 255, 255;
+  }
+}
+
+body {
+  color: rgb(var(--unforeground-rgb));
+  background: rgb(var(--background-end-rgb));
+}
+
+
+button {
+  height: 45px;
+}
+
+b{
+  font-weight: 700 !important;
+  margin: 0 4px 0 0 !important;
+}
+i{
+  text-decoration: underline;
+  color:blue;
+  margin: 0 4px 0 4px !important;
+  cursor: pointer;
+}
+.listDisc {
+  list-style-type: disc;
+}
+
+.list-disc {
+  list-style-type: disc !important;
+}
+
+.text-justify {
+  text-align: justify !important;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
