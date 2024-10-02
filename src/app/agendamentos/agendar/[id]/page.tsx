@@ -1,4 +1,7 @@
 'use client';
+import * as React from 'react';
+import dayjs from 'dayjs';
+
 import Content from "@/components/Content";
 import { useParams, useRouter } from "next/navigation";
 import { ContentPaste } from '@mui/icons-material';
@@ -12,23 +15,18 @@ import ConfirmModal from "@/components/Modal/confirmModal";
 import ContentFixedButton from "@/components/Button/ContentFixedButton";
 import InputForm from "@/components/Form/Input";
 import { Button } from "@/components/Button";
-import { getContent } from "@/server/services";
+import { getScheduling } from "@/server/services";
 import FormRow from "@/components/Form/FormRow";
-import { AccordionGeneral, AccordionItemGeneral, ChildrenGeneral } from "@/components/Accordion";
 import ConfirmDeleteModal from "@/components/Modal/confirmDeleteModal";
-import TextEditor from "@/components/Form/TextEditor";
+import DateTimeInput from '@/components/Form/DateTimeInput';
+import TextareaForm from '@/components/Form/TextArea';
 
 interface FormValues {
-  id: number | null;
-  title: string;
-  subtitle: string;
-  image: string;
-  text: string;
-  footer: string;
+  obs: string;
+  data_hora: string;
 }
 
-
-export default function DataConteudo() {
+export default function DataAgendamento() {
   const params = useParams();
   const [loading, setLoading] = useState<boolean>(false);
   const [isOpenConfirm, setIsOpenConfirm] = useState(false);
@@ -39,19 +37,22 @@ export default function DataConteudo() {
   const [validation, setValidation] = useState(false);
   const router = useRouter();
   const [initialValues, setInitialValues] = useState<FormValues>({
-    id: null, title: '', subtitle: '', image: '', text: '', footer: ''
+    obs: '',
+    data_hora: dayjs().format('DD/MM/YYYY HH:mm')
   });
 
-  const getUserData = async (id: number) => {
-    const data = await getContent(id);
+  const getData = async (id: number) => {
+    const data = await getScheduling(id);
+    console.log(data)
     setInitialValues({
-      id: data.id || null, title: data.title || '', subtitle: data.subtitle || '', image: data.image || '', text: data.text || '', footer: data.footer || ''
+      obs: data?.obs || '',
+      data_hora: data?.data_hora ? dayjs(data.data_hora).format('DD/MM/YYYY HH:mm') : dayjs().format('DD/MM/YYYY HH:mm')
     });
   };
 
   useEffect(() => {
     if (params.id != "cadastro") {
-      getUserData(Number(params.id));
+      getData(Number(params.id));
     }
   }, [params.id]);
 
@@ -59,15 +60,11 @@ export default function DataConteudo() {
   const handleModalConfirmDelete = () => setIsOpenConfirmDelete(!isOpenConfirmDelete);
 
   const validationSchema = Yup.object().shape({
-    title: Yup.string().nonNullable().required('Título é obrigatório'),
-    subtitle: Yup.string().required('Sub-título é obrigatório'),
-    image: Yup.string().required('Telefone é obrigatório'),
-    text: Yup.string().required('Texto do conteúdo é obrigatório'),
+    data_hora: Yup.string().required('Data e hora são obrigatórios'),
   });
 
-
   useEffect(() => {
-    document.title = `${params.id === "cadastro" ? 'Novo Conteúdo' : "Editar Conteúdo"} | Colégio Soberano`;
+    document.title = `${params.id === "cadastro" ? 'Novo Agendamento' : "Editar Agendamento"} | Colégio Soberano`;
   }, [params.id]);
 
   useEffect(() => {
@@ -81,37 +78,36 @@ export default function DataConteudo() {
   const handleSubmit = async (values: any, actions: any) => {
     setLoading(true);
     try {
-      let data = values;
+      let data = {
+        ...values, data_hora: dayjs(values.data_hora, 'DD/MM/YYYY HH:mm').format('YYYY-MM-DDTHH:mm:ss'), usuario: {
+          id: JSON.parse(localStorage.getItem("user_soberano") || '{}')?.id || 6
+        }
+      };
       if (params.id === "cadastro") {
-        const res = await api.post('/contents', data);
+        await api.post('/scheduling', data);
         setLoading(false);
-        window.location.assign(`/conteudos`);
+        window.location.assign(`/agendamentos`);
       } else {
-        await api.patch(`/contents/${params.id}`, data);
+        await api.patch(`/scheduling/${params.id}`, data);
         setLoading(false);
-        window.location.assign(`/conteudos`);
+        window.location.assign(`/agendamentos`);
       }
     } catch (error) {
       setLoading(false);
-      showErrorToast("Erro ao salvar conteúdo!");
+      showErrorToast("Erro ao salvar agendamento!");
     }
   };
 
   const handleDelete = async () => {
     setLoading(true);
     try {
-      await api.delete(`/contents/${params.id}`);
+      await api.delete(`/scheduling/${params.id}`);
       setLoading(false);
-      window.location.assign(`/conteudos`);
+      window.location.assign(`/agendamentos`);
     } catch (error) {
       setLoading(false);
       showErrorToast("Erro ao deletar usuário!");
     }
-  };
-
-  const handleTextEditor = (content: string) => {
-    console.log('Conteúdo salvo:', content);
-    // Aqui você pode fazer o que quiser com o conteúdo, como enviá-lo para uma API
   };
 
   if (loading) return <LoadingOverlay />;
@@ -121,7 +117,7 @@ export default function DataConteudo() {
       <div className="w-full flex flex-col items-center mt-2">
         <div className="flex items-center justify-center">
           <ContentPaste />
-          <h1 className="text-2xl font-bold mb-4 items-center pt-5">{params.id === "cadastro" ? 'Novo Conteúdo' : "Editar Conteúdo"}</h1>
+          <h1 className="text-2xl font-bold mb-4 items-center pt-5">{params.id === "cadastro" ? 'Novo Agendamento' : "Editar Agendamento"}</h1>
         </div>
 
         <div className='flex flex-col w-9/12 pt-6 justify-center items-center'>
@@ -135,50 +131,17 @@ export default function DataConteudo() {
             {({ isSubmitting, setFieldValue, values, errors }) => (
               <Form className='h-full flex justify-between w-full flex-col pb-44'>
                 <FormRow>
-                  <InputForm
-                    name="title"
-                    type="text"
-                    title="Título"
-                    value={values.title}
-                    onChange={(event) => setFieldValue("title", event.target.value)}
-                    error={validation && errors.title && typeof errors.title == 'string' ? errors.title : ''}
+                  <DateTimeInput
+                    value={values.data_hora}
+                    onChange={(newValue: any) => setFieldValue("data_hora", newValue.format('DD/MM/YYYY HH:mm'))}
+                  />
+                  <TextareaForm
+                    name="obs"
+                    title="Observação"
+                    value={values.obs}
+                    onChange={(event) => setFieldValue("obs", event.target.value)}
+                    error={validation && errors.obs && typeof errors.obs == 'string' ? errors.obs : ''}
                     className="w-1/2"
-                  />
-                  <InputForm
-                    name="subtitle"
-                    type="text"
-                    title="Sub-título"
-                    value={values.subtitle}
-                    onChange={(event) => setFieldValue("subtitle", event.target.value)}
-                    error={validation && errors.subtitle && typeof errors.subtitle == 'string' ? errors.subtitle : ''}
-                    className="w-1/4"
-                  />
-                  <InputForm
-                    name="image"
-                    type="text"
-                    title="Imagem"
-                    value={values.image}
-                    onChange={(event) => setFieldValue("image", event.target.value)}
-                    error={validation && errors.image && typeof errors.image == 'string' ? errors.image : ''}
-                    className="w-1/5"
-                  />
-                </FormRow>
-                <FormRow>
-                  <TextEditor
-                    initialValue={values.text}
-                    setFieldValue={setFieldValue}
-                    title="Texto do conteúdo"
-                    field="text"
-                    error={validation && errors.text && typeof errors.text == 'string' ? errors.text : ''}
-                    />
-                </FormRow>
-                <FormRow className="mt-14">
-                  <TextEditor
-                    field="footer"
-                    initialValue={values.footer}
-                    setFieldValue={setFieldValue}
-                    title="Rodapé"
-                    error={validation && errors.footer && typeof errors.footer == 'string' ? errors.footer : ''}
                   />
                 </FormRow>
                 <ContentFixedButton>

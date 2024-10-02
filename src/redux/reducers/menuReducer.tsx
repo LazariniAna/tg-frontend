@@ -24,7 +24,8 @@ const initialState: MenuState = {
       title: "Visita",
       icon: 'chalkboard-user.svg',
       childrens: [
-        { title: "Agendar visitas", url: "/", isDisabled:false},
+        { title: "Agendamentos", url: "/agendamentos", isDisabled:false},
+        { title: "Agendar visitas", url: "/agendamentos/agendar/cadastro", isDisabled:false},
       ],
       isDisabled:false
     },

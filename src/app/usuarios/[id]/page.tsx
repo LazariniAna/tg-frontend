@@ -105,7 +105,7 @@ export default function DataUsuario() {
     if (allowDelete) handleDelete();
   }, [allowDelete]);
 
-  const handleSubmit = async (values: any, actions: any, backToEdit?: boolean) => {
+  const handleSubmit = async (values: any, actions: any) => {
     setLoading(true);
     try {
       let data = values;
