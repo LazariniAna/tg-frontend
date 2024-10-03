@@ -1,3 +1,4 @@
+'use client'
 import { ToastContainer } from "react-toastify";
 import Header from "../Header";
 import Menu from "../Menu";
@@ -5,10 +6,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux";
 import 'react-loading-skeleton/dist/skeleton.css';
+import { getCookie } from "@/utils/helper";
 
 export default function Template({ children }: { children: React.ReactNode }) {
   const menu = useSelector((state: RootState) => state.menu)
- 
   return <div className="h-full">
     <Header />
     <div className={`flex`}>

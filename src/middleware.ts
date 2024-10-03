@@ -7,7 +7,7 @@ export async function middleware(request: NextRequest, response: NextResponse, e
   const cookieStore = cookies()
   const bearerAuth = cookieStore.get('Bearer');
   if (!bearerAuth) {
-    return
+    return NextResponse.redirect(new URL('/login', request.url));
     const data = JSON.stringify({
       token: 'bearerAuth.value'
     })

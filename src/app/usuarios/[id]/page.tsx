@@ -78,17 +78,17 @@ export default function DataUsuario() {
   const handleModalConfirmDelete = () => setIsOpenConfirmDelete(!isOpenConfirmDelete);
 
   const validationSchema = Yup.object().shape({
-    nome: Yup.string().required('Nome é obrigatório'),
-    email: Yup.string().email('Email inválido').required('Email é obrigatório'),
-    telefone: Yup.string().required('Telefone é obrigatório'),
-    cpf: Yup.string().required('CPF é obrigatório'),
+    nome: Yup.string().nonNullable().required('Nome é obrigatório'),
+    email: Yup.string().nonNullable().email('Email inválido').required('Email é obrigatório'),
+    telefone: Yup.string().nonNullable().required('Telefone é obrigatório'),
+    cpf: Yup.string().nonNullable().required('CPF é obrigatório'),
     address: Yup.object().shape({
-      rua: Yup.string().required('Rua é obrigatória'),
-      // cep: Yup.string().required('Cep é obrigatório'),
-      numero: Yup.string().required('Número é obrigatório'),
-      bairro: Yup.string().required('Bairro é obrigatório'),
-      cidade: Yup.string().required('Cidade é obrigatória'),
-      estado: Yup.string().required('Estado é obrigatório'),
+      rua: Yup.string().nonNullable().required('Rua é obrigatória'),
+      // cep: Yup.string().nonNullable().required('Cep é obrigatório'),
+      numero: Yup.string().nonNullable().required('Número é obrigatório'),
+      bairro: Yup.string().nonNullable().required('Bairro é obrigatório'),
+      cidade: Yup.string().nonNullable().required('Cidade é obrigatória'),
+      estado: Yup.string().nonNullable().required('Estado é obrigatório'),
     }),
   });
 

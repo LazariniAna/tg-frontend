@@ -60,9 +60,9 @@ export default function DataConteudo() {
 
   const validationSchema = Yup.object().shape({
     title: Yup.string().nonNullable().required('Título é obrigatório'),
-    subtitle: Yup.string().required('Sub-título é obrigatório'),
+    subtitle: Yup.string().nonNullable().required('Sub-título é obrigatório'),
     image: Yup.string().required('Telefone é obrigatório'),
-    text: Yup.string().required('Texto do conteúdo é obrigatório'),
+    text: Yup.string().nonNullable().required('Texto do conteúdo é obrigatório'),
   });
 
 

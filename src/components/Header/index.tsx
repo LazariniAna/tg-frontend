@@ -11,6 +11,7 @@ import { RootState } from "@/redux";
 import { useRouter } from "next/navigation";
 import { cleanMockStatusValues, cleanMockValues, getCookie } from "@/utils/helper";
 import Link from "next/link";
+import { destroyCookie } from "nookies";
 
 
 export default function Header() {
@@ -46,8 +47,12 @@ export default function Header() {
             <div className="flex flex-col justify-center items-center text-white cursor-pointer" onClick={() => {
                 router.back();
             }}>
-              <Image src={Out} alt="Logo usuário" />
-               Voltar
+              <Image src={Out} alt="Logo usuário" onClick={()=> {
+                destroyCookie(null, "Bearer");
+                setTimeout(()=>window.location.assign('/login'), 500)
+                
+              }}/>
+               Sair
             </div>
         </div>
       </div>

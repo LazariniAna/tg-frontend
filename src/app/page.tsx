@@ -50,7 +50,7 @@ export default function Home() {
               <div className="flex  mt-4">
                 <div className="flex mx-3 max-w-24 flex-col justify-start items-center cursor-pointer hover:scale-125 ease-in duration-150" onClick={() => {
                   setImagesList([
-                    { url: story1, duration: 15000 },
+                    { url: 'src/assets/story.jpg', duration: 15000 },
                     
                   ])
                   setOpenStory(!openStory)

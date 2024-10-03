@@ -60,7 +60,7 @@ export default function DataAgendamento() {
   const handleModalConfirmDelete = () => setIsOpenConfirmDelete(!isOpenConfirmDelete);
 
   const validationSchema = Yup.object().shape({
-    data_hora: Yup.string().required('Data e hora são obrigatórios'),
+    data_hora: Yup.string().nonNullable().required('Data e hora são obrigatórios'),
   });
 
   useEffect(() => {

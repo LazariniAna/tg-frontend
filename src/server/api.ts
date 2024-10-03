@@ -15,7 +15,10 @@ const api: AxiosInstance = axios.create({
 });
 
 api.interceptors.request.use(async config => {
+  const bearer = getCookie('Bearer');
   if (!config.headers.getAuthorization()) {
+    config.headers['Authorization'] = `Bearer ${bearer}`;
+    return config;
     const authTokenBearer = getCookie('Bearer');
     const data = {
       token: authTokenBearer
