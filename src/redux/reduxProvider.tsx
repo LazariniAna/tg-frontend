@@ -15,25 +15,24 @@ export default function ReduxProvider({
 }) {
   const [bearerAuth, setBearerAuth] = useState<string | null>(null)
 
-  // useLayoutEffect(()=>{
-  //   setBearerAuth(getCookie('Bearer'))
-  //   // const bearerAuth = getCookie('Bearer');
-  // },[])
+  useLayoutEffect(()=>{
+    setBearerAuth(getCookie('Bearer'))
+  },[])
 
   return <Provider store={store}>
     <Suspense fallback={<ApplicationSkeleton />}>
       <NavigationEvents />
       <ScrollbarStyles />
-      {/* {bearerAuth
-        ? */}
+      {bearerAuth
+        ?
         <Template>
           {children}
         </Template>
-        {/* :
+        :
         <div>
           {children}
         </div> 
-      } */}
+      } 
     </Suspense>
   </Provider>;
 }

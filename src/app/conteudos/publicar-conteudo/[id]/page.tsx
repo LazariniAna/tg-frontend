@@ -83,13 +83,15 @@ export default function DataConteudo() {
     try {
       let data = values;
       if (params.id === "cadastro") {
-        const res = await api.post('/contents', data);
+        await api.post('/contents', data).then((res) => {
+          window.location.assign(`/conteudos`);
+        });
         setLoading(false);
-        window.location.assign(`/conteudos`);
       } else {
-        await api.patch(`/contents/${params.id}`, data);
+        await api.patch(`/contents/${params.id}`, data).then((res) => {
+          window.location.assign(`/conteudos`);
+        });
         setLoading(false);
-        window.location.assign(`/conteudos`);
       }
     } catch (error) {
       setLoading(false);

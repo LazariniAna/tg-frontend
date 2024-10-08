@@ -84,13 +84,15 @@ export default function DataAgendamento() {
         }
       };
       if (params.id === "cadastro") {
-        await api.post('/scheduling', data);
+        await api.post('/scheduling', data).then((res) => {
+          window.location.assign(`/agendamentos`);
+        });
         setLoading(false);
-        // window.location.assign(`/agendamentos`);
       } else {
-        await api.patch(`/scheduling/${params.id}`, data);
+        await api.patch(`/scheduling/${params.id}`, data).then((res) => {
+          window.location.assign(`/agendamentos`);
+        });
         setLoading(false);
-        // window.location.assign(`/agendamentos`);
       }
     } catch (error) {
       setLoading(false);

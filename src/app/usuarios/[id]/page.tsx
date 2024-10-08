@@ -111,13 +111,15 @@ export default function DataUsuario() {
       let data = values;
 
       if (params.id === "cadastro") {
-        const res = await api.post('/users', data);
+        const res = await api.post('/users', data).then((res) => {
+          window.location.assign(`/usuarios`);
+        });
         setLoading(false);
-        window.location.assign(`/usuarios`);
       } else {
-        await api.patch(`/users/${params.id}`, data);
+        await api.patch(`/users/${params.id}`, data).then((res) => {
+          window.location.assign(`/usuarios`);
+        });
         setLoading(false);
-        window.location.assign(`/usuarios`);
       }
     } catch (error) {
       setLoading(false);
