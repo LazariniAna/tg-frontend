@@ -31,6 +31,7 @@ export const colors = {
   primaryLight: '#99B2DD',
   light: '#FAFAFF',
   purple: '#B298DC',
+  purpleDark: '#744AB7',
   orange: '#DD6031',
   pink: '#C45BAA',
 }

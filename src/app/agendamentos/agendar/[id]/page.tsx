@@ -80,17 +80,17 @@ export default function DataAgendamento() {
     try {
       let data = {
         ...values, data_hora: dayjs(values.data_hora, 'DD/MM/YYYY HH:mm').format('YYYY-MM-DDTHH:mm:ss'), usuario: {
-          id: JSON.parse(localStorage.getItem("user_soberano") || '{}')?.id || 6
+          id: localStorage.getItem("user_soberano") ? JSON.parse(localStorage.getItem("user_soberano") || '{}')?.id : 6
         }
       };
       if (params.id === "cadastro") {
         await api.post('/scheduling', data);
         setLoading(false);
-        window.location.assign(`/agendamentos`);
+        // window.location.assign(`/agendamentos`);
       } else {
         await api.patch(`/scheduling/${params.id}`, data);
         setLoading(false);
-        window.location.assign(`/agendamentos`);
+        // window.location.assign(`/agendamentos`);
       }
     } catch (error) {
       setLoading(false);
@@ -103,7 +103,7 @@ export default function DataAgendamento() {
     try {
       await api.delete(`/scheduling/${params.id}`);
       setLoading(false);
-      window.location.assign(`/agendamentos`);
+      // window.location.assign(`/agendamentos`);
     } catch (error) {
       setLoading(false);
       showErrorToast("Erro ao deletar usuário!");

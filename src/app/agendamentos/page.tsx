@@ -34,33 +34,38 @@ export default function Agendamentos() {
             name: 'ID',
             selector: (row: any) => row.id,
             sortable: true,
+            width: '10%',
         },
         {
             name: 'Usuário',
             selector: (row: any) => row.usuario.nome,
             sortable: true,
+            width: '25%',
+            
         },
         {
             name: 'Contato',
             selector: (row: any) => row.usuario.telefone,
             sortable: true,
+            width: '15%',
         },
         {
             name: 'Data/Hora',
             selector: (row: any) => dayjs(row.data_hora).format('DD/MM/YYYY HH:MM') + "h",
             sortable: true,
+            width: '15%',
         },
         {
             name: 'Obs.',
             selector: (row: any) => row.obs,
             sortable: true,
+            width: '25%',
             cell: (row: any) => (
                 <div className="truncate-text" title={row.obs}>
                     {row.obs}
                 </div>
             ),
             style: {
-                maxWidth: '200px',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
@@ -69,7 +74,7 @@ export default function Agendamentos() {
         {
             name: 'Ações',
             cell: (row: any) => (
-                <div className="flex gap-3">
+                <div className="flex gap-3 justify-start">
                     <div className="bg-darkBlue rounded p-1 cursor-pointer" onClick={() => window.location.assign(`/agendamentos/agendar/${row.id}`)}><Edit fontSize="small" />
                     </div>
                     <div className="bg-warning rounded p-1 cursor-pointer" onClick={() =>{
@@ -78,7 +83,8 @@ export default function Agendamentos() {
                         }}><DeleteOutline fontSize="small" /></div>
                 </div>
             ),
-            center: true,
+            width: '10%',
+            center:true,
             style: {
                 display: 'flex',
                 justifyContent: 'center',
@@ -124,10 +130,10 @@ export default function Agendamentos() {
                 padding: '24px',
             },
         },
-        cells: {
-            style: {
-            },
+        style: {
+            textAlign: 'left', // Alinhamento à esquerda para células
         },
+
     };
 
     const paginationComponentOptions = {

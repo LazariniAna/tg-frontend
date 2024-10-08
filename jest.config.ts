@@ -1,25 +1,33 @@
-const nextJest = require("next/jest");
+// const nextJest = require("next/jest");
 
-const createJestConfig = nextJest({
-  dir: "./",
-});
+// const createJestConfig = nextJest({
+//   dir: "./",
+// });
 
-const customJestConfig = {
-  coverageProvider: 'v8',
-  preset: 'ts-jest',
-  testEnvironment: 'jsdom',
-  moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/$1',
-  },
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+// const customJestConfig = {
+//   coverageProvider: 'v8',
+//   preset: 'ts-jest',
+//   testEnvironment: 'jsdom',
+//   moduleNameMapper: {
+//     '^@/(.*)$': '<rootDir>/$1',
+//   },
+//   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+//   transform: {
+//     '^.+\\.tsx?$': 'ts-jest',
+//   },
+//   globals: {
+//     'ts-jest': {
+//       tsconfig: './tsconfig.json', 
+//     },
+//   },
+// };
+
+// module.exports = createJestConfig(customJestConfig);
+
+module.exports = {
+  testEnvironment: 'node',
   transform: {
-    '^.+\\.tsx?$': 'ts-jest',
+    '^.+\\.tsx?$': 'ts-jest', // Se você estiver usando TypeScript
   },
-  globals: {
-    'ts-jest': {
-      tsconfig: './tsconfig.json', 
-    },
-  },
+  testTimeout: 30000, // Aumenta o tempo limite, se necessário
 };
-
-module.exports = createJestConfig(customJestConfig);

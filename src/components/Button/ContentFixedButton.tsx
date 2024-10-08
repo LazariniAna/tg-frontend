@@ -16,7 +16,7 @@ export default function ContentFixedButton({ children, cols }: { children: React
 
   return (
     <div className={`z-20 flex w-full py-4 fixed bottom-0 left-0 bg-white ${showMenu ? 'justify-end max-sm:justify-center' : 'justify-center'}`} >
-      <div className={`flex ${showMenu ? ' max-lg:w-2/3 w- max-sm:w-full w-4/5' : 'w-full'} items-center justify-center ${cols ? ' flex-col' : ''}`}>
+      <div className={`flex w-full items-center justify-center ${cols ? ' flex-col' : ''}`}>
         {children}
       </div>
     </div>

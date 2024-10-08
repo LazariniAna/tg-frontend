@@ -33,8 +33,9 @@ const initialState: MenuState = {
       title: "Conteúdos",
       icon: 'chalkboard-user.svg',
       childrens: [
-        { title: "Conteúdos", url: "/conteudos", isDisabled:false},
-        { title: "Publicar conteúdos", url: "/conteudos/publicar-conteudo/cadastro", isDisabled:false},
+        { title: "Publicar conteúdos (admin)", url: "/conteudos/publicar-conteudo/cadastro", isDisabled:false},
+        { title: "Lista Conteúdos (Admin)", url: "/conteudos", isDisabled:false},
+        { title: "Conteúdos", url: "/conteudos/publicados", isDisabled:false},
       ],
       isDisabled:false
     },

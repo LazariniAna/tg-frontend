@@ -4,9 +4,6 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 import ReduxProvider from "@/redux/reduxProvider";
 import api from "@/server/api";
-import { useCallback, useEffect, useLayoutEffect } from "react";
-import { validateError } from "@/server/services/unauthorized";
-import { getCookie } from "@/utils/helper";
 
 declare global {
   interface Window {
@@ -31,7 +28,9 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <main>
-          <ReduxProvider> {children}</ReduxProvider>
+          <ReduxProvider> 
+              {children}
+          </ReduxProvider>
         </main>
       </body>
     </html >

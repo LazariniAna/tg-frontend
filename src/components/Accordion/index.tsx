@@ -85,8 +85,6 @@ const ChildrenAccordion: React.FC<{ title: string, url?: string, isChildDisabled
                 {isChildDisabled ?
                     <div className="absolute inset-0 bg-lightGray opacity-50 z-50 " ></div>
                     : null}
-                <>{console.log(window.location.pathname)}</>
-                <>{console.log(url)}</>
                 <Link href={url || '/'} onClick={handleMenu} className={`${window.location.pathname == url?.toString() ? 'font-bold' : ''}`}>
                     {title}
                 </Link>

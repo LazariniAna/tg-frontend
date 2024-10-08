@@ -243,10 +243,9 @@ export interface OptionsRadio {
 
   export interface ContentItems{
     id:number,
-    theme: string,
+    text: string,
     title:string,
-    sub_title:string,
-    link:string,
+    subtitle:string,
     image:string,
   }
 

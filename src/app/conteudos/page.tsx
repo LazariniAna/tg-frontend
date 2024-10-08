@@ -139,7 +139,7 @@ export default function Conteudos() {
         <Content>
             <div className="flex flex-col items-center w-10/12 ">
                 <div className="w-full flex justify-between py-8">
-                    <h1 className="text-2xl">Lista de Conteudos</h1>
+                    <h1 className="text-2xl">Conteudos</h1>
                     <Button color="black" fill="filled" onClick={() => window.location.assign('/conteudos/publicar-conteudo/cadastro')}>Adicionar novo conteúdo</Button>
                 </div>
                 <DataTable
