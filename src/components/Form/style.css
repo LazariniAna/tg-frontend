@@ -1,0 +1,16 @@
+input {
+    padding: 9px !important;
+}
+
+.MuiFormControl-root{
+    margin: 5px 0 0 0 !important;
+    padding: 0 !important;
+}
+.MuiStack-root{
+    margin: 0 !important;
+    padding: 0 !important;
+}
+span.MuiTypography-root.MuiTypography-overline {
+    display: none !important;
+}
+
