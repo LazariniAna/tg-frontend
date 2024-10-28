@@ -21,7 +21,6 @@ export default function Agendamentos() {
     useEffect(() => {
         const fetchData = async () => {
             const data = await getSchedulings();
-            console.log(data);
             setSchedulings(data);
             setLoading(false);
         };
@@ -41,7 +40,7 @@ export default function Agendamentos() {
             selector: (row: any) => row.usuario.nome,
             sortable: true,
             width: '25%',
-            
+
         },
         {
             name: 'Contato',
@@ -77,14 +76,14 @@ export default function Agendamentos() {
                 <div className="flex gap-3 justify-start">
                     <div className="bg-darkBlue rounded p-1 cursor-pointer" onClick={() => window.location.assign(`/agendamentos/agendar/${row.id}`)}><Edit fontSize="small" />
                     </div>
-                    <div className="bg-warning rounded p-1 cursor-pointer" onClick={() =>{
+                    <div className="bg-warning rounded p-1 cursor-pointer" onClick={() => {
                         setAllowDelete(false)
                         handleModalConfirmDelete(row.id);
-                        }}><DeleteOutline fontSize="small" /></div>
+                    }}><DeleteOutline fontSize="small" /></div>
                 </div>
             ),
             width: '10%',
-            center:true,
+            center: true,
             style: {
                 display: 'flex',
                 justifyContent: 'center',
@@ -155,7 +154,7 @@ export default function Agendamentos() {
         }
     };
 
-    const handleModalConfirmDelete = (id:number) => {setIdSelected(id);setIsOpenConfirmDelete(!isOpenConfirmDelete)};
+    const handleModalConfirmDelete = (id: number) => { setIdSelected(id); setIsOpenConfirmDelete(!isOpenConfirmDelete) };
 
     useEffect(() => {
         if (allowDelete && idSelected) handleDelete(idSelected);
@@ -169,7 +168,7 @@ export default function Agendamentos() {
         <Content>
             <div className="flex flex-col items-center w-10/12 ">
                 <div className="w-full flex justify-between py-8">
-                    <h1 className="text-2xl">Lista de 
+                    <h1 className="text-2xl">Lista de
                         Agendamentos
                     </h1>
                     <Button color="black" fill="filled" onClick={() => window.location.assign('/agendamentos/agendar/cadastro')}>Agendar</Button>

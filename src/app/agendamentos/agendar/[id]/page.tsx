@@ -43,7 +43,6 @@ export default function DataAgendamento() {
 
   const getData = async (id: number) => {
     const data = await getScheduling(id);
-    console.log(data)
     setInitialValues({
       obs: data?.obs || '',
       data_hora: data?.data_hora ? dayjs(data.data_hora).format('DD/MM/YYYY HH:mm') : dayjs().format('DD/MM/YYYY HH:mm')

@@ -40,15 +40,14 @@ api.interceptors.request.use(async config => {
         status: res.status,
         response: responseBody
       };
-     console.error(JSON.stringify(errorData));
+      console.error(JSON.stringify(errorData));
     }
-    if(responseBody && responseBody.access_token){
+    if (responseBody && responseBody.access_token) {
       config.headers['Authorization'] = `Bearer ${responseBody.access_token}`;
       setCookie(null, 'Bearer', responseBody.access_token);
     }
     config.headers['UserProfile'] = getCookie('Bearer')
   }
-  console.log()
   return config;
 }, error => {
   return Promise.reject(error);

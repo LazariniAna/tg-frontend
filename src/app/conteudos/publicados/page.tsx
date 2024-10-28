@@ -19,7 +19,6 @@ export default function Conteudos() {
         const fetchData = async () => {
             const data = await getContents();
             setContents(data);
-            console.log(data);
             setLoading(false);
         };
 
@@ -38,11 +37,11 @@ export default function Conteudos() {
                     <Button color="black" fill="filled" onClick={() => window.location.assign('/conteudos/publicar-conteudo/cadastro')}>Adicionar novo conteúdo</Button>
                 </div>
                 <div className="flex">
-                    {contents && contents.map((content:any, index:number) => (
-                            <div key={index}>
-                                <ContentCard item={content}/>
-                            </div>
-                        ))
+                    {contents && contents.map((content: any, index: number) => (
+                        <div key={index}>
+                            <ContentCard item={content} />
+                        </div>
+                    ))
                     }
                 </div>
             </div>

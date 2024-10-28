@@ -14,3 +14,9 @@ span.MuiTypography-root.MuiTypography-overline {
     display: none !important;
 }
 
+.quill .ql-editor img {
+    resize: both;
+    max-width: 100%;
+    height: auto;
+    overflow: hidden;
+}

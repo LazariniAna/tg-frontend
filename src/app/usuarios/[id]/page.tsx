@@ -3,10 +3,8 @@ import Content from "@/components/Content";
 import { useParams, useRouter } from "next/navigation";
 import { Person } from '@mui/icons-material';
 import { useEffect, useRef, useState } from "react";
-import { ErrorMessage, Form, Formik, FormikProps } from "formik";
-import Select, { StylesConfig } from 'react-select';
+import { ErrorMessage, Field, Form, Formik, FormikProps } from "formik";
 import LoadingOverlay from "@/components/Loading";
-import { customStyles, monthsOptionsDefault } from "@/utils/const";
 import * as Yup from 'yup';
 import { useSearchParams } from 'next/navigation';
 import api from "@/server/api";
@@ -19,6 +17,8 @@ import { getUser } from "@/server/services";
 import FormRow from "@/components/Form/FormRow";
 import { AccordionGeneral, AccordionItemGeneral, ChildrenGeneral } from "@/components/Accordion";
 import ConfirmDeleteModal from "@/components/Modal/confirmDeleteModal";
+import InputMask from 'react-input-mask';
+import { buscarCep, validateCpf } from "@/utils/functions";
 interface Address {
   id: number | null;
   rua: string;
@@ -37,6 +37,14 @@ interface FormValues {
   cpf: string;
   address: Address;
 }
+interface UserInterface {
+  id: number | null;
+  addres: Address;
+  email: string;
+  telefone: string;
+  cpf: string;
+  address: Address;
+}
 
 
 export default function DataUsuario() {
@@ -49,24 +57,42 @@ export default function DataUsuario() {
   const [allowDelete, setAllowDelete] = useState(false);
   const formikRef = useRef<FormikProps<any> | null>(null);
   const [validation, setValidation] = useState(false);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<UserInterface | null>(null);
   const router = useRouter();
   const [initialValues, setInitialValues] = useState<FormValues>({
     id: null, nome: '', email: '', telefone: '', cpf: '', address: {
-      id: null, rua: '', bairro: '', estado: '', numero: '', cidade: ''
+      id: null, rua: '', bairro: '', estado: '', numero: '', cidade: '', cep: ''
     }
   });
 
   const getUserData = async (id: number) => {
     const userData = await getUser(id);
-    console.log(userData);
     setUser(userData);
     setInitialValues({
       id: userData.id || null, nome: userData.nome || '', email: userData.email || '', telefone: userData.telefone || '', cpf: userData.cpf || '', address: userData.address || {
-        id: null, rua: '', bairro: '', estado: '', numero: '', cidade: ''
+        id: null, rua: '', bairro: '', estado: '', numero: '', cidade: '', cep: ''
       },
     });
   };
+
+  const onHandleCep = async (cep: string, setFieldValue: any) => {
+    if (!cep) return;
+
+    try {
+      const addressData = await buscarCep(cep);
+      if (addressData && !addressData.erro) {
+        setFieldValue("address.rua", addressData.logradouro);
+        setFieldValue("address.bairro", addressData.bairro);
+        setFieldValue("address.cidade", addressData.localidade);
+        setFieldValue("address.estado", addressData.estado);
+      } else {
+        showErrorToast("CEP não encontrado");
+      }
+    } catch (error) {
+      showErrorToast("Erro ao buscar o CEP");
+    }
+  };
+
 
   useEffect(() => {
     if (params.id != "cadastro") {
@@ -81,17 +107,24 @@ export default function DataUsuario() {
     nome: Yup.string().nonNullable().required('Nome é obrigatório'),
     email: Yup.string().nonNullable().email('Email inválido').required('Email é obrigatório'),
     telefone: Yup.string().nonNullable().required('Telefone é obrigatório'),
-    cpf: Yup.string().nonNullable().required('CPF é obrigatório'),
+    cpf: Yup.string()
+      .required('CPF é obrigatório')
+      .test('valid-cpf', 'CPF inválido.', validateCpf),
     address: Yup.object().shape({
       rua: Yup.string().nonNullable().required('Rua é obrigatória'),
-      // cep: Yup.string().nonNullable().required('Cep é obrigatório'),
+      cep: Yup.string()
+        .nonNullable()
+        .required('Cep é obrigatório')
+        .matches(/^\d{5}-\d{3}$/, 'Cep deve estar no formato 00000-000')
+        .test('cep-completo', 'Cep incompleto', (value) => {
+          return value ? value.replace(/\D/g, '').length === 8 : false;
+        }),
       numero: Yup.string().nonNullable().required('Número é obrigatório'),
       bairro: Yup.string().nonNullable().required('Bairro é obrigatório'),
       cidade: Yup.string().nonNullable().required('Cidade é obrigatória'),
       estado: Yup.string().nonNullable().required('Estado é obrigatório'),
     }),
   });
-
 
   useEffect(() => {
     document.title = `${params.id === "cadastro" ? 'Novo Usuário' : "Editar Usuário"} | Colégio Soberano`;
@@ -100,7 +133,7 @@ export default function DataUsuario() {
   useEffect(() => {
     if (allowNext) router.back();
   }, [allowNext]);
- 
+
   useEffect(() => {
     if (allowDelete) handleDelete();
   }, [allowDelete]);
@@ -130,9 +163,9 @@ export default function DataUsuario() {
   const handleDelete = async () => {
     setLoading(true);
     try {
-        await api.delete(`/users/${params.id}`);
-        setLoading(false);
-        window.location.assign(`/usuarios`);
+      await api.delete(`/users/${params.id}`);
+      setLoading(false);
+      window.location.assign(`/usuarios`);
     } catch (error) {
       setLoading(false);
       showErrorToast("Erro ao deletar usuário!");
@@ -189,15 +222,26 @@ export default function DataUsuario() {
                   />
                 </FormRow>
                 <FormRow>
-                  <InputForm
-                    name="cpf"
-                    type="number"
-                    title="CPF"
-                    value={values.cpf}
-                    onChange={(event) => setFieldValue("cpf", event.target.value)}
-                    error={validation && errors.cpf && typeof errors.cpf == 'string' ? errors.cpf : ''}
-                    className="w-1/4"
-                  />
+                  <div className={`mb-4 max-md:w-full`}>
+                    <label htmlFor='cpf' className="mb-2 font-bold">CPF</label>
+                    <Field name="cpf">
+                      {({ field }: { field: any }) => (
+                        <InputMask
+                          {...field}
+                          mask="999.999.999-99"
+                          onChange={(e: any) => setFieldValue("cpf", e.target.value)}
+                        >
+                          {(inputProps: any) => (
+                            <input
+                              {...inputProps}
+                              className="w-full py-2 px-3 border border-quartenary rounded-md"
+                            />
+                          )}
+                        </InputMask>
+                      )}
+                    </Field>
+                    <ErrorMessage name="cpf" component="div" className="flex justify-start text-red-500 pl-2" />
+                  </div>
                 </FormRow>
                 <AccordionGeneral>
                   <AccordionItemGeneral key={"Endereço"} title="Endereço">
@@ -212,15 +256,44 @@ export default function DataUsuario() {
                           error={validation && errors.address?.rua ? errors.address.rua : ''}
                           className="w-1/2"
                         />
-                        <InputForm
+                        <div className={`mb-4 max-md:w-full`}>
+                          <label htmlFor='address.cep' className="mb-2 font-bold">Cep</label>
+                          <Field name="address.cep">
+                            {({ field }: { field: any }) => (
+                              <InputMask
+                                {...field}
+                                mask="99999-999"
+                                onChange={(e: any) => {
+                                  const cepValue = e.target.value;
+                                  setFieldValue("address.cep", cepValue);
+
+                                  if (cepValue.replace(/[^0-9]/g, "").length === 8) {
+                                    onHandleCep(cepValue, setFieldValue);
+                                  }
+                                }}
+                                onBlur={() => values.address.cep && onHandleCep(values.address.cep, setFieldValue)}
+                              >
+                                {(inputProps: any) => (
+                                  <input
+                                    {...inputProps}
+                                    className="w-full py-2 px-3 border border-quartenary rounded-md"
+                                  />
+                                )}
+                              </InputMask>
+                            )}
+                          </Field>
+                          <ErrorMessage name="address.cep" component="div" className="flex justify-start text-red-500 pl-2" />
+                        </div>
+                        {/* <InputForm
                           name="address.cep"
-                          type="number"
-                          title="Cep"
+                          type="text"
+                          title="CEP"
                           value={values.address.cep}
                           onChange={(event) => setFieldValue("address.cep", event.target.value)}
+                          onBlur={() => values.address.cep && onHandleCep(values.address.cep, setFieldValue)}
                           error={validation && errors.address?.cep && typeof errors.address.cep === 'string' ? errors.address.cep : ''}
                           className="w-1/4"
-                        />
+                        /> */}
                         <InputForm
                           name="address.numero"
                           type="number"
@@ -277,8 +350,8 @@ export default function DataUsuario() {
                   <div className="ml-8 max-mxs:ml-2">
                     <Button type="button" size="small" color="black" fill="filled" style={{ border: '2px solid black' }} onClick={() => {
                       validationSchema.validate(values)
-                        .then(() => {
-                          handleSubmit(values, null);
+                        .then(async () => {
+                          await handleSubmit(values, null);
                         })
                         .catch((e) => {
                           setValidation(true);

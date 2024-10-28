@@ -17,6 +17,7 @@ import FormRow from "@/components/Form/FormRow";
 import { AccordionGeneral, AccordionItemGeneral, ChildrenGeneral } from "@/components/Accordion";
 import ConfirmDeleteModal from "@/components/Modal/confirmDeleteModal";
 import TextEditor from "@/components/Form/TextEditor";
+import Editor from "@/components/Form/Quill/EditorUseQuill";
 
 interface FormValues {
   id: number | null;
@@ -61,7 +62,7 @@ export default function DataConteudo() {
   const validationSchema = Yup.object().shape({
     title: Yup.string().nonNullable().required('Título é obrigatório'),
     subtitle: Yup.string().nonNullable().required('Sub-título é obrigatório'),
-    image: Yup.string().required('Telefone é obrigatório'),
+    image: Yup.string().required('Imagem é obrigatório'),
     text: Yup.string().nonNullable().required('Texto do conteúdo é obrigatório'),
   });
 
@@ -166,13 +167,20 @@ export default function DataConteudo() {
                   />
                 </FormRow>
                 <FormRow>
+                  <Editor initialValue={values.text}
+                    setFieldValue={setFieldValue}
+                    title="Texto do conteúdo"
+                    field="text"
+                    error={validation && errors.text && typeof errors.text == 'string' ? errors.text : ''} />
+                </FormRow>
+                {/* <FormRow>
                   <TextEditor
                     initialValue={values.text}
                     setFieldValue={setFieldValue}
                     title="Texto do conteúdo"
                     field="text"
                     error={validation && errors.text && typeof errors.text == 'string' ? errors.text : ''}
-                    />
+                  />
                 </FormRow>
                 <FormRow className="mt-14">
                   <TextEditor
@@ -182,7 +190,7 @@ export default function DataConteudo() {
                     title="Rodapé"
                     error={validation && errors.footer && typeof errors.footer == 'string' ? errors.footer : ''}
                   />
-                </FormRow>
+                </FormRow> */}
                 <ContentFixedButton>
                   {params.id != "cadastro" ?
                     <div className="mr-8 max-mxs:mr-2">
