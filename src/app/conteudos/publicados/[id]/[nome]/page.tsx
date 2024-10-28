@@ -30,7 +30,7 @@ export default function Conteudo() {
           <div className="border-gray-300 pb-4 border-b-2">
             <i className="no-underline text-gray-600 cursor-default">Capa:</i>
             {content?.image ?
-              <img src={content?.image} alt="Preview" className=" object-center rounded-full border" />
+              <img src={content?.image} alt="Preview" className="w-[260px] h-[265px] object-cover rounded-full border" />
               :
               <Image
                 src={ContentComum}
