@@ -6,38 +6,38 @@ const initialState: MenuState = {
   open: false,
   itensMenu: [
     {
-      title: "Home",
+      title: "Início",
       icon: '',
       url: "/",
-      isDisabled:false
+      isDisabled: false
     },
     {
       title: "Sobre",
       icon: 'scribble.svg',
       childrens: [
-        { title: "Sobre a escola", url: "/" },
+        { title: "Sobre a escola", url: "/sobre" },
         { title: "Calendário escolar", url: "/" },
       ],
-      isDisabled:false
+      isDisabled: false
     },
     {
       title: "Visita",
       icon: 'chalkboard-user.svg',
       childrens: [
-        { title: "Agendamentos", url: "/agendamentos", isDisabled:false},
-        { title: "Agendar visitas", url: "/agendamentos/agendar/cadastro", isDisabled:false},
+        { title: "Agendamentos", url: "/agendamentos", isDisabled: false },
+        { title: "Agendar visitas", url: "/agendamentos/agendar/cadastro", isDisabled: false },
       ],
-      isDisabled:false
+      isDisabled: false
     },
     {
       title: "Conteúdos",
       icon: 'chalkboard-user.svg',
       childrens: [
-        { title: "Publicar conteúdos (admin)", url: "/conteudos/publicar-conteudo/cadastro", isDisabled:false},
-        { title: "Lista Conteúdos (Admin)", url: "/conteudos", isDisabled:false},
-        { title: "Conteúdos", url: "/conteudos/publicados", isDisabled:false},
+        { title: "Publicar conteúdos (admin)", url: "/conteudos/publicar-conteudo/cadastro", isDisabled: false },
+        { title: "Lista Conteúdos (Admin)", url: "/conteudos", isDisabled: false },
+        { title: "Conteúdos", url: "/conteudos/publicados", isDisabled: false },
       ],
-      isDisabled:false
+      isDisabled: false
     },
     {
       title: "Usuários",
@@ -46,7 +46,7 @@ const initialState: MenuState = {
         { title: "Cadastrar novo usuário", url: "/usuarios/cadastro" },
         { title: "Usuários", url: "/usuarios" }
       ],
-      isDisabled:false
+      isDisabled: false
     },
   ]
 };
@@ -58,7 +58,7 @@ const menuSlice = createSlice({
     toggleMenu: (state) => {
       return { ...state, open: !state.open };
     },
-    changeVisible: (state,  {payload}) => {
+    changeVisible: (state, { payload }) => {
       return { ...state, visible: payload };
     },
   },

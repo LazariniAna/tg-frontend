@@ -18,6 +18,7 @@ import { AccordionGeneral, AccordionItemGeneral, ChildrenGeneral } from "@/compo
 import ConfirmDeleteModal from "@/components/Modal/confirmDeleteModal";
 import TextEditor from "@/components/Form/TextEditor";
 import Editor from "@/components/Form/Quill/EditorUseQuill";
+import ImageInputForm from "@/components/Form/ImageInput";
 
 interface FormValues {
   id: number | null;
@@ -156,7 +157,14 @@ export default function DataConteudo() {
                     error={validation && errors.subtitle && typeof errors.subtitle == 'string' ? errors.subtitle : ''}
                     className="w-1/4"
                   />
-                  <InputForm
+                  <ImageInputForm
+                    name="image"
+                    title="Imagem"
+                    initialImage={values.image} // Set the initial image if it exists
+                    onChange={(base64) => setFieldValue("image", base64)}
+                    error={validation && errors.image && typeof errors.image === 'string' ? errors.image : ''}
+                  />
+                  {/* <InputForm
                     name="image"
                     type="text"
                     title="Imagem"
@@ -164,7 +172,7 @@ export default function DataConteudo() {
                     onChange={(event) => setFieldValue("image", event.target.value)}
                     error={validation && errors.image && typeof errors.image == 'string' ? errors.image : ''}
                     className="w-1/5"
-                  />
+                  /> */}
                 </FormRow>
                 <FormRow>
                   <Editor initialValue={values.text}

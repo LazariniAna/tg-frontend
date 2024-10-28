@@ -1,12 +1,9 @@
 'use client';
-import { Button } from "@/components/Button";
 import ContentCard from "@/components/Cards/ContentCard";
 import Content from "@/components/Content";
 import LoadingOverlay from "@/components/Loading";
 import ConfirmDeleteModal from "@/components/Modal/confirmDeleteModal";
-import api from "@/server/api";
 import { getContents } from "@/server/services";
-import { showErrorToast } from "@/utils/messages.helper";
 import { useEffect, useState } from "react";
 
 export default function Conteudos() {
@@ -32,14 +29,16 @@ export default function Conteudos() {
     return (
         <Content>
             <div className="flex flex-col items-center w-10/12 ">
-                <div className="w-full flex justify-between py-8">
-                    <h1 className="text-2xl">Lista de Conteudos</h1>
-                    <Button color="black" fill="filled" onClick={() => window.location.assign('/conteudos/publicar-conteudo/cadastro')}>Adicionar novo conteúdo</Button>
+                <div className="w-full flex flex-col justify-between py-8">
+                    <h1 className="text-2xl font-bold">Lista de Conteudos</h1>
+                    <br></br>
+                    <p className="text-xl">Acesse nossos conteúdos publicados por membros de nossa equipe!</p>
                 </div>
                 <div className="flex">
                     {contents && contents.map((content: any, index: number) => (
                         <div key={index}>
                             <ContentCard item={content} />
+                            {/* <ContentCardImage item={content} /> */}
                         </div>
                     ))
                     }
