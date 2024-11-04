@@ -60,3 +60,159 @@ i{
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+/* style.css */
+
+/* Contêiner do editor */
+.editor-container {
+    width: 100%;
+    border: 2px solid #e2e8f0; /* Cor da borda */
+    padding: 16px; /* Espaçamento interno */
+    height: 500px; /* Altura fixa ou você pode ajustar */
+    min-width: 400px; /* Largura mínima */
+    border-radius: 8px; /* Bordas arredondadas */
+    overflow: auto; /* Para permitir rolagem */
+    background-color: #fff; /* Cor de fundo */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra */
+}
+
+/* Título do editor */
+.editor-title {
+    margin-bottom: 12px; /* Margem inferior */
+    font-size: 1.25rem; /* Tamanho da fonte */
+    font-weight: bold; /* Negrito */
+    color: #4a5568; /* Cor do texto */
+}
+
+/* Estilos para o Quill */
+.ql-container {
+    min-height: 300px; /* Altura mínima do editor */
+    border: 1px solid #cbd5e0; /* Borda do editor */
+    border-radius: 4px; /* Bordas arredondadas */
+    background: #f7fafc; /* Cor de fundo */
+}
+
+/* Estilos para a barra de ferramentas */
+.ql-toolbar {
+    border: none; /* Remover borda */
+    background: #edf2f7; /* Cor de fundo da barra */
+    border-radius: 4px; /* Bordas arredondadas */
+    margin-bottom: 8px; /* Espaçamento inferior */
+}
+
+/* Estilos dos botões da barra de ferramentas */
+.ql-toolbar button {
+    background: transparent; /* Fundo transparente */
+    color: #2d3748; /* Cor do texto */
+    border: none; /* Sem borda */
+    padding: 8px; /* Espaçamento interno */
+    cursor: pointer; /* Cursor de ponteiro */
+}
+
+.ql-toolbar button:hover {
+    background: #e2e8f0; /* Fundo ao passar o mouse */
+}
+
+/* Estilos do conteúdo do editor */
+.ql-editor {
+    padding: 12px; /* Espaçamento interno */
+    font-size: 1rem; /* Tamanho da fonte */
+    line-height: 1.5; /* Altura da linha */
+    color: #2d3748; /* Cor do texto */
+}
+
+/* Estilos para títulos */
+.ql-editor h1 {
+    font-size: 2rem; /* Tamanho do h1 */
+    font-weight: bold; /* Negrito */
+    margin: 16px 0; /* Margens */
+}
+
+h1 {
+    font-size: 2rem; /* Tamanho do h1 */
+    font-weight: bold; /* Negrito */
+    margin: 16px 0; /* Margens */
+}
+
+.ql-editor h2 {
+    font-size: 1.5rem; /* Tamanho do h2 */
+    font-weight: bold; /* Negrito */
+    margin: 14px 0; /* Margens */
+}
+
+.ql-editor h3 {
+    font-size: 1.25rem; /* Tamanho do h3 */
+    font-weight: bold; /* Negrito */
+    margin: 12px 0; /* Margens */
+}
+
+/* Estilos para parágrafos */
+.ql-editor p {
+    margin: 0 0 10px; /* Margens inferiores */
+}
+
+/* Estilos para listas */
+.ql-editor ul, .ql-editor ol {
+    margin: 10px 0; /* Margens */
+    padding-left: 20px; /* Indentação */
+}
+
+/* Estilos para links */
+.ql-editor a {
+    text-decoration: underline; /* Sublinhado */
+}
+
+.ql-editor a:hover {
+    color: #1a202c; /* Cor do link ao passar o mouse */
+}
+
+/* Estilos para citações */
+.ql-editor blockquote {
+    border-left: 4px solid #cbd5e0; /* Borda esquerda */
+    padding-left: 10px; /* Espaçamento interno */
+    color: #4a5568; /* Cor do texto */
+    font-style: italic; /* Itálico */
+    margin: 10px 0; /* Margens */
+}
+
+/* Estilos para erros */
+.error-message {
+    color: #e53e3e; /* Cor vermelha */
+    padding-left: 8px; /* Espaçamento à esquerda */
+    font-size: 0.875rem; /* Tamanho da fonte */
+}
+
+/* Imagens flutuantes */
+.float-left {
+    float: left;
+    margin: 5px 10px 5px 0; /* Margens */
+}
+
+.float-right {
+    float: right;
+    margin: 5px 0 5px 10px; /* Margens */
+}
+
+.float-center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Animações (opcional) */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+.readonly{
+  .ql-toolbar{
+    display: none !important;
+  }
+}

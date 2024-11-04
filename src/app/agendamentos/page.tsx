@@ -21,6 +21,7 @@ export default function Agendamentos() {
     useEffect(() => {
         const fetchData = async () => {
             const data = await getSchedulings();
+            console.log(data);
             setSchedulings(data);
             setLoading(false);
         };

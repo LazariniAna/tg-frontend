@@ -50,11 +50,11 @@ const DateTimeInput: React.FC<DateTimeInputProps> = ({ value, onChange, classNam
                             className={`-pt-4 border ${error ? 'border-red-500' : 'border-gray-300'} p-2 rounded`}
                         />
                     </DemoItem>
-                    <DemoItem>
+                    {/* <DemoItem>
                         <StaticDateTimePicker 
                             value={parsedValue}
                             onChange={onChange} />
-                    </DemoItem>
+                    </DemoItem> */}
                 </DemoContainer>
             </LocalizationProvider>
         </div>

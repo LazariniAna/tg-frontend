@@ -157,8 +157,8 @@ export default function DataAgendamento() {
                     VOLTAR
                   </Button>
                   <div className="ml-8 max-mxs:ml-2">
-                    <Button type="button" size="small" color="black" fill="filled" style={{ border: '2px solid black' }} onClick={() => {
-                      validationSchema.validate(values)
+                    <Button type="button" size="small" color="black" fill="filled" style={{ border: '2px solid black' }} onClick={async () => {
+                      await validationSchema.validate(values)
                         .then(() => {
                           handleSubmit(values, null);
                         })

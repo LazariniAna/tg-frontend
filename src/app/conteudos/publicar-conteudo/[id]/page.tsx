@@ -63,7 +63,7 @@ export default function DataConteudo() {
   const validationSchema = Yup.object().shape({
     title: Yup.string().nonNullable().required('Título é obrigatório'),
     subtitle: Yup.string().nonNullable().required('Sub-título é obrigatório'),
-    image: Yup.string().required('Imagem é obrigatório'),
+    // image: Yup.string().required('Imagem é obrigatório'),
     text: Yup.string().nonNullable().required('Texto do conteúdo é obrigatório'),
   });
 
@@ -211,8 +211,8 @@ export default function DataConteudo() {
                     VOLTAR
                   </Button>
                   <div className="ml-8 max-mxs:ml-2">
-                    <Button type="button" size="small" color="black" fill="filled" style={{ border: '2px solid black' }} onClick={() => {
-                      validationSchema.validate(values)
+                    <Button type="button" size="small" color="black" fill="filled" style={{ border: '2px solid black' }} onClick={async () => {
+                      await validationSchema.validate(values)
                         .then(() => {
                           handleSubmit(values, null);
                         })
