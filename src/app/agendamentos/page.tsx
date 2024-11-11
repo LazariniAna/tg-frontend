@@ -10,7 +10,6 @@ import { showErrorToast } from "@/utils/messages.helper";
 import { Edit, DeleteOutline } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import DataTable from 'react-data-table-component';
-import dayjs from 'dayjs';
 
 export default function Agendamentos() {
     const [schedulings, setSchedulings] = useState([]);
@@ -21,13 +20,24 @@ export default function Agendamentos() {
     useEffect(() => {
         const fetchData = async () => {
             const data = await getSchedulings();
-            console.log(data);
             setSchedulings(data);
             setLoading(false);
         };
 
         fetchData();
     }, []);
+
+    function formatDateTime(dateStr: string) {
+        const date = new Date(dateStr);
+
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Mês é zero-indexado
+        const year = date.getFullYear();
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+
+        return `${day}/${month}/${year} ${hours}:${minutes}`;
+    }
 
     const columns = [
         {
@@ -51,7 +61,7 @@ export default function Agendamentos() {
         },
         {
             name: 'Data/Hora',
-            selector: (row: any) => dayjs(row.data_hora).format('DD/MM/YYYY HH:MM') + "h",
+            selector: (row: any) => formatDateTime(row.data_hora),
             sortable: true,
             width: '15%',
         },

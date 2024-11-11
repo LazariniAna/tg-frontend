@@ -19,6 +19,7 @@ import { AccordionGeneral, AccordionItemGeneral, ChildrenGeneral } from "@/compo
 import ConfirmDeleteModal from "@/components/Modal/confirmDeleteModal";
 import InputMask from 'react-input-mask';
 import { buscarCep, validateCpf } from "@/utils/functions";
+import InputFormRef from "@/components/Form/InputRef";
 interface Address {
   id: number | null;
   rua: string;
@@ -59,6 +60,7 @@ export default function DataUsuario() {
   const [validation, setValidation] = useState(false);
   const [user, setUser] = useState<UserInterface | null>(null);
   const router = useRouter();
+  const numeroRef = useRef<HTMLInputElement>(null);
   const [initialValues, setInitialValues] = useState<FormValues>({
     id: null, nome: '', email: '', telefone: '', cpf: '', address: {
       id: null, rua: '', bairro: '', estado: '', numero: '', cidade: '', cep: ''
@@ -85,6 +87,7 @@ export default function DataUsuario() {
         setFieldValue("address.bairro", addressData.bairro);
         setFieldValue("address.cidade", addressData.localidade);
         setFieldValue("address.estado", addressData.estado);
+        numeroRef.current?.focus();
       } else {
         showErrorToast("CEP não encontrado");
       }
@@ -106,7 +109,12 @@ export default function DataUsuario() {
   const validationSchema = Yup.object().shape({
     nome: Yup.string().nonNullable().required('Nome é obrigatório'),
     email: Yup.string().nonNullable().email('Email inválido').required('Email é obrigatório'),
-    telefone: Yup.string().nonNullable().required('Telefone é obrigatório'),
+    telefone: Yup.string()
+      .required('Telefone é obrigatório')
+      .matches(/^\(\d{2}\) \d{5}-\d{4}$/, 'Telefone deve estar no formato (99) 99999-9999')
+      .test('telefone-completo', 'Telefone incompleto', (value) => {
+        return value ? value.replace(/\D/g, '').length === 11 : false;
+      }),
     cpf: Yup.string()
       .required('CPF é obrigatório')
       .test('valid-cpf', 'CPF inválido.', validateCpf),
@@ -209,9 +217,9 @@ export default function DataUsuario() {
                     value={values.email}
                     onChange={(event) => setFieldValue("email", event.target.value)}
                     error={validation && errors.email && typeof errors.email == 'string' ? errors.email : ''}
-                    className="w-1/4"
+                    className="w-8/20"
                   />
-                  <InputForm
+                  {/* <InputForm
                     name="telefone"
                     type="text"
                     title="Telefone"
@@ -219,10 +227,30 @@ export default function DataUsuario() {
                     onChange={(event) => setFieldValue("telefone", event.target.value)}
                     error={validation && errors.telefone && typeof errors.telefone == 'string' ? errors.telefone : ''}
                     className="w-1/5"
-                  />
+                  /> */}
+                  <div className={`mb-4 max-md:w-full  w-1/4`}>
+                    <label htmlFor='telefone' className="mb-2 font-bold">Telefone</label>
+                    <Field name="telefone">
+                      {({ field }: { field: any }) => (
+                        <InputMask
+                          {...field}
+                          mask="(99) 99999-9999"
+                          onChange={(e: any) => setFieldValue("telefone", e.target.value)}
+                        >
+                          {(inputProps: any) => (
+                            <input
+                              {...inputProps}
+                              className="w-full py-2 px-3 border border-gray-300 rounded-md"
+                            />
+                          )}
+                        </InputMask>
+                      )}
+                    </Field>
+                    <ErrorMessage name="telefone" component="div" className="flex justify-start text-red-500 pl-2" />
+                  </div>
                 </FormRow>
                 <FormRow>
-                  <div className={`mb-4 max-md:w-full`}>
+                  <div className={`mb-4 max-md:w-full w-1/4`}>
                     <label htmlFor='cpf' className="mb-2 font-bold">CPF</label>
                     <Field name="cpf">
                       {({ field }: { field: any }) => (
@@ -234,7 +262,7 @@ export default function DataUsuario() {
                           {(inputProps: any) => (
                             <input
                               {...inputProps}
-                              className="w-full py-2 px-3 border border-quartenary rounded-md"
+                              className="w-full py-2 px-3 border border-gray-300 rounded-md"
                             />
                           )}
                         </InputMask>
@@ -256,7 +284,7 @@ export default function DataUsuario() {
                           error={validation && errors.address?.rua ? errors.address.rua : ''}
                           className="w-1/2"
                         />
-                        <div className={`mb-4 max-md:w-full`}>
+                        <div className={`mb-4 max-md:w-full w-1/4`}>
                           <label htmlFor='address.cep' className="mb-2 font-bold">Cep</label>
                           <Field name="address.cep">
                             {({ field }: { field: any }) => (
@@ -276,7 +304,7 @@ export default function DataUsuario() {
                                 {(inputProps: any) => (
                                   <input
                                     {...inputProps}
-                                    className="w-full py-2 px-3 border border-quartenary rounded-md"
+                                    className="w-full py-2 px-3 border border-gray-300 rounded-md"
                                   />
                                 )}
                               </InputMask>
@@ -294,7 +322,7 @@ export default function DataUsuario() {
                           error={validation && errors.address?.cep && typeof errors.address.cep === 'string' ? errors.address.cep : ''}
                           className="w-1/4"
                         /> */}
-                        <InputForm
+                        <InputFormRef
                           name="address.numero"
                           type="number"
                           title="Número"
@@ -302,6 +330,7 @@ export default function DataUsuario() {
                           onChange={(event) => setFieldValue("address.numero", event.target.value)}
                           error={validation && errors.address?.numero && typeof errors.address.numero === 'string' ? errors.address.numero : ''}
                           className="w-1/5"
+                          innerRef={numeroRef}
                         />
                       </FormRow>
                       <FormRow>

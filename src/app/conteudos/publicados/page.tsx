@@ -34,7 +34,7 @@ export default function Conteudos() {
                     <br></br>
                     <p className="text-xl">Acesse nossos conteúdos publicados por membros de nossa equipe!</p>
                 </div>
-                <div className="flex">
+                <div className="flex flex-wrap">
                     {contents && contents.map((content: any, index: number) => (
                         <div key={index}>
                             <ContentCard item={content} />

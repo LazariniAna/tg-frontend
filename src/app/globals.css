@@ -65,6 +65,7 @@ i{
 /* Contêiner do editor */
 .editor-container {
     width: 100%;
+    min-height: 3000px;
     border: 2px solid #e2e8f0; /* Cor da borda */
     padding: 16px; /* Espaçamento interno */
     height: 500px; /* Altura fixa ou você pode ajustar */

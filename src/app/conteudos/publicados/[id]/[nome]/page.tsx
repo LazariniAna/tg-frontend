@@ -15,12 +15,10 @@ export default function Conteudo() {
   useEffect(() => {
     const fetchData = async () => {
       const data = await getContent(Number(params.id));
-      console.log(data);
       setContent(data);
     };
     fetchData();
   }, []);
-  console.log(content?.text)
   return (
     <Content>
       <div className="w-11/12 flex justify-around gap-1 pt-4 flex-wrap-reverse">

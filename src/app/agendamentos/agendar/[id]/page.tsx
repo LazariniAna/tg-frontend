@@ -15,7 +15,7 @@ import ConfirmModal from "@/components/Modal/confirmModal";
 import ContentFixedButton from "@/components/Button/ContentFixedButton";
 import InputForm from "@/components/Form/Input";
 import { Button } from "@/components/Button";
-import { getScheduling } from "@/server/services";
+import { getScheduling, getSchedulings } from "@/server/services";
 import FormRow from "@/components/Form/FormRow";
 import ConfirmDeleteModal from "@/components/Modal/confirmDeleteModal";
 import DateTimeInput from '@/components/Form/DateTimeInput';
@@ -36,6 +36,7 @@ export default function DataAgendamento() {
   const formikRef = useRef<FormikProps<any> | null>(null);
   const [validation, setValidation] = useState(false);
   const router = useRouter();
+  const [disabledDates, setDisabledDates] = useState([]);
   const [initialValues, setInitialValues] = useState<FormValues>({
     obs: '',
     data_hora: dayjs().format('DD/MM/YYYY HH:mm')
@@ -102,14 +103,24 @@ export default function DataAgendamento() {
   const handleDelete = async () => {
     setLoading(true);
     try {
-      await api.delete(`/scheduling/${params.id}`);
+      await api.delete(`/scheduling/${params.id}`).then(() => window.location.assign(`/agendamentos`));
       setLoading(false);
-      // window.location.assign(`/agendamentos`);
     } catch (error) {
       setLoading(false);
       showErrorToast("Erro ao deletar usuário!");
     }
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getSchedulings();
+      const disabledDatesAux = data.filter((item: any) => item.id != params.id).map((scheduling: any) => dayjs(scheduling.data_hora));
+      setDisabledDates(disabledDatesAux)
+      setLoading(false);
+    };
+
+    fetchData();
+  }, []);
 
   if (loading) return <LoadingOverlay />;
 
@@ -135,6 +146,7 @@ export default function DataAgendamento() {
                   <DateTimeInput
                     value={values.data_hora}
                     onChange={(newValue: any) => setFieldValue("data_hora", newValue.format('DD/MM/YYYY HH:mm'))}
+                    disabledDates={disabledDates}
                   />
                   <TextareaForm
                     name="obs"
