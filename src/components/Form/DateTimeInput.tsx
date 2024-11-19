@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { MobileDateTimePicker, StaticDateTimePicker } from '@mui/x-date-pickers';
-import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
+import { MobileDateTimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
-import "dayjs/locale/pt-br";
-import "./style.css";
+import 'dayjs/locale/pt-br';
+import './style.css';
 
 interface DateTimeInputProps {
     className?: string;
-    value: string;
+    value: string | null;
     error?: string;
-    onChange: (newValue: any) => void;
+    onChange: (newValue: dayjs.Dayjs | null) => void;
     disabledDates: dayjs.Dayjs[];
 }
 
@@ -32,7 +31,7 @@ const DateTimeInput: React.FC<DateTimeInputProps> = ({ value, onChange, classNam
 
     if (!isClient) return null;
 
-    const parsedValue = value ? dayjs(value, 'DD/MM/YYYY HH:mm') : dayjs();
+    const parsedValue = value ? dayjs(value, 'DD/MM/YYYY HH:mm') : null;
 
     const shouldDisableDate = (date: dayjs.Dayjs) => {
         return date.day() === 0 || date.day() === 6;
@@ -40,31 +39,27 @@ const DateTimeInput: React.FC<DateTimeInputProps> = ({ value, onChange, classNam
 
     const shouldDisableTime = (time: dayjs.Dayjs) => {
         const hour = time.hour();
-        return (hour < 7 || hour > 17) || disabledDates.some(disabledDate => disabledDate.isSame(time, 'minute'));
+        return hour < 7 || hour > 17 || disabledDates.some(disabledDate => disabledDate.isSame(time, 'minute'));
     };
 
     return (
-        <div className={`flex flex-col md:w-1/3 w-full ${className}`}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DemoContainer
-                    components={[
-                        'DateTimePicker',
-                        'MobileDateTimePicker',
-                        'DesktopDateTimePicker',
-                        'StaticDateTimePicker',
-                    ]}
-                >
-                    <DemoItem label={<label className="font-bold text-base">Data e hora</label>}>
-                        <MobileDateTimePicker
-                            value={parsedValue}
-                            onChange={onChange}
-                            shouldDisableDate={shouldDisableDate}
-                            shouldDisableTime={shouldDisableTime}
-                            minutesStep={30}
-                            className={`-pt-4 border ${error ? 'border-red-500' : 'border-gray-300'} p-2 rounded`}
-                        />
-                    </DemoItem>
-                </DemoContainer>
+        <div className={`flex flex-col md:w-5/12 w-full ${className}`}>
+            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
+                <MobileDateTimePicker
+                    value={parsedValue}
+                    onChange={onChange}
+                    shouldDisableDate={shouldDisableDate}
+                    shouldDisableTime={shouldDisableTime}
+                    minutesStep={30}
+                    views={['day', 'hours', 'minutes']}
+                    format="dddd, DD/MM/YYYY HH:mm" // Exibe o dia da semana no formato
+                    className={`-pt-4 border ${error ? 'border-red-500' : 'border-gray-300'} p-2 rounded`}
+                    slotProps={{
+                        textField: {
+                            placeholder: "Selecione a data e hora",
+                        },
+                    }}
+                />
             </LocalizationProvider>
         </div>
     );

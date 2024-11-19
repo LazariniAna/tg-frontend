@@ -15,6 +15,8 @@ import { showErrorToast } from "@/utils/messages.helper";
 import FormRow from "@/components/Form/FormRow";
 import ContentFixedButton from "@/components/Button/ContentFixedButton";
 import InputForm from "@/components/Form/Input";
+import { getUsers } from "@/server/services";
+import { useUser } from "@/contexts/UserContext";
 
 interface FormValues {
   user: string;
@@ -23,9 +25,11 @@ interface FormValues {
 
 
 export default function Login() {
+  const { setUser } = useUser();
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const [validation, setValidation] = useState(false);
+  const [users, setUsers] = useState([]);
   const [initialValues, setInitialValues] = useState<FormValues>({
     user: '', password: ''
   });
@@ -35,6 +39,7 @@ export default function Login() {
     document.title = "Login | Colégio Soberano"
     const bearerAuth = getCookie('Bearer');
     if (bearerAuth) router.push('/')
+    getUser()
   }, [])
 
 
@@ -42,6 +47,11 @@ export default function Login() {
     user: Yup.string().nonNullable().required('Usuário é obrigatório'),
     password: Yup.string().nonNullable().required('Senha é obrigatório'),
   });
+  const getUser = async () => {
+    const users = await getUsers();
+    setUsers(users)
+    console.log(users)
+  }
 
   const handleSubmit = async (values: any, actions: any) => {
     setLoading(true);
@@ -49,8 +59,10 @@ export default function Login() {
       let data = {
         ...values
       };
-      // await api.post('/login', data);
-      setCookie(null, 'Bearer', "teste")
+      const loggedInUser = users.length > 0 ? users[0] : null;
+      setCookie(null, 'Bearer', "teste");
+      localStorage.setItem('user_soberano', JSON.stringify(loggedInUser));
+      setUser(loggedInUser);
       setLoading(false);
       setTimeout(() => window.location.assign('/'), 500)
     } catch (error) {
@@ -85,7 +97,7 @@ export default function Login() {
                   />
                   <InputForm
                     name="password"
-                    type="text"
+                    type="password"
                     title="Senha"
                     value={values.password}
                     onChange={(event) => setFieldValue("password", event.target.value)}

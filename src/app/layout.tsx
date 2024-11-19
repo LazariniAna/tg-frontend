@@ -23,13 +23,13 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <head>
-        <title>Colégio Soberano</title>
+        <title>Colégio Sol</title>
         <meta charSet='utf-8' />
       </head>
       <body className={inter.className}>
         <main>
-          <ReduxProvider> 
-              {children}
+          <ReduxProvider>
+            {children}
           </ReduxProvider>
         </main>
       </body>

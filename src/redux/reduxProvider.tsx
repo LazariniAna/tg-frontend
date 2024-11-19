@@ -7,6 +7,7 @@ import NavigationEvents from "@/components/Router/NavigationEvents";
 import { Suspense, useEffect, useLayoutEffect, useState } from "react";
 import ApplicationSkeleton from "@/components/Skeleton/Application";
 import { getCookie } from "@/utils/helper";
+import AppProviders from "@/contexts/AppProviders";
 
 export default function ReduxProvider({
   children,
@@ -15,24 +16,30 @@ export default function ReduxProvider({
 }) {
   const [bearerAuth, setBearerAuth] = useState<string | null>(null)
 
-  useLayoutEffect(()=>{
+  useLayoutEffect(() => {
     setBearerAuth(getCookie('Bearer'))
-  },[])
+  }, [])
 
   return <Provider store={store}>
     <Suspense fallback={<ApplicationSkeleton />}>
-      <NavigationEvents />
-      <ScrollbarStyles />
-      {bearerAuth
-        ?
+      <AppProviders>
+        <NavigationEvents />
+        <ScrollbarStyles />
+        {/* {bearerAuth
+          ?
+          <Template>
+            {children}
+          </Template>
+          :
+          <div>
+            {children}
+          </div>
+        } */}
         <Template>
           {children}
         </Template>
-        :
-        <div>
-          {children}
-        </div> 
-      } 
+      </AppProviders>
+
     </Suspense>
   </Provider>;
 }

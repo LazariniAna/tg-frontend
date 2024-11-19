@@ -20,10 +20,11 @@ import FormRow from "@/components/Form/FormRow";
 import ConfirmDeleteModal from "@/components/Modal/confirmDeleteModal";
 import DateTimeInput from '@/components/Form/DateTimeInput';
 import TextareaForm from '@/components/Form/TextArea';
+import { useUser } from '@/contexts/UserContext';
 
 interface FormValues {
   obs: string;
-  data_hora: string;
+  data_hora: any;
 }
 
 export default function DataAgendamento() {
@@ -31,6 +32,7 @@ export default function DataAgendamento() {
   const [loading, setLoading] = useState<boolean>(false);
   const [isOpenConfirm, setIsOpenConfirm] = useState(false);
   const [allowNext, setAllowNext] = useState(false);
+  const { user } = useUser();
   const [isOpenConfirmDelete, setIsOpenConfirmDelete] = useState(false);
   const [allowDelete, setAllowDelete] = useState(false);
   const formikRef = useRef<FormikProps<any> | null>(null);
@@ -39,7 +41,7 @@ export default function DataAgendamento() {
   const [disabledDates, setDisabledDates] = useState([]);
   const [initialValues, setInitialValues] = useState<FormValues>({
     obs: '',
-    data_hora: dayjs().format('DD/MM/YYYY HH:mm')
+    data_hora: null
   });
 
   const getData = async (id: number) => {
@@ -54,6 +56,7 @@ export default function DataAgendamento() {
     if (params.id != "cadastro") {
       getData(Number(params.id));
     }
+    console.log('user', user)
   }, [params.id]);
 
   const handleModalConfirm = () => setIsOpenConfirm(!isOpenConfirm);
@@ -78,27 +81,32 @@ export default function DataAgendamento() {
   const handleSubmit = async (values: any, actions: any) => {
     setLoading(true);
     try {
-      let data = {
-        ...values, data_hora: dayjs(values.data_hora, 'DD/MM/YYYY HH:mm').format('YYYY-MM-DDTHH:mm:ss'), usuario: {
-          id: localStorage.getItem("user_soberano") ? JSON.parse(localStorage.getItem("user_soberano") || '{}')?.id : 6
+      if (user && user.id) {
+        let data = {
+          ...values, data_hora: dayjs(values.data_hora, 'DD/MM/YYYY HH:mm').format('YYYY-MM-DDTHH:mm:ss'), usuario: {
+            id: user.id
+          }
+        };
+        if (params.id === "cadastro") {
+          await api.post('/scheduling', data).then((res) => {
+            window.location.assign(`/agendamentos`);
+          });
+          setLoading(false);
+        } else {
+          await api.patch(`/scheduling/${params.id}`, data).then((res) => {
+            window.location.assign(`/agendamentos`);
+          });
+          setLoading(false);
         }
-      };
-      if (params.id === "cadastro") {
-        await api.post('/scheduling', data).then((res) => {
-          window.location.assign(`/agendamentos`);
-        });
-        setLoading(false);
-      } else {
-        await api.patch(`/scheduling/${params.id}`, data).then((res) => {
-          window.location.assign(`/agendamentos`);
-        });
-        setLoading(false);
       }
+
     } catch (error) {
       setLoading(false);
       showErrorToast("Erro ao salvar agendamento!");
     }
   };
+
+
 
   const handleDelete = async () => {
     setLoading(true);
