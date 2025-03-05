@@ -39,7 +39,7 @@ const DateTimeInput: React.FC<DateTimeInputProps> = ({ value, onChange, classNam
 
     const shouldDisableTime = (time: dayjs.Dayjs) => {
         const hour = time.hour();
-        return hour < 7 || hour > 17 || disabledDates.some(disabledDate => disabledDate.isSame(time, 'minute'));
+        return hour < 7 || hour > 17 || disabledDates?.some(disabledDate => disabledDate?.isSame(time, 'minute'));
     };
 
     return (
@@ -52,7 +52,7 @@ const DateTimeInput: React.FC<DateTimeInputProps> = ({ value, onChange, classNam
                     shouldDisableTime={shouldDisableTime}
                     minutesStep={30}
                     views={['day', 'hours', 'minutes']}
-                    format="dddd, DD/MM/YYYY HH:mm" // Exibe o dia da semana no formato
+                    format="dddd, DD/MM/YYYY HH:mm"
                     className={`-pt-4 border ${error ? 'border-red-500' : 'border-gray-300'} p-2 rounded`}
                     slotProps={{
                         textField: {

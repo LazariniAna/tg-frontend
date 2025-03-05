@@ -25,7 +25,7 @@ export default function MenuBottom() {
     ];
 
     return (
-        <div className="fixed bottom-4 right-4 flex flex-col items-end rounded-full gap-2">
+        <div className="fixed bottom-4 right-4 flex flex-col items-end rounded-full gap-2 z-100">
             <div
                 className={`flex flex-col items-center gap-2 transition-all duration-300 ${isOpen ? "opacity-100 scale-100" : "opacity-0 scale-75 pointer-events-none"
                     }`}

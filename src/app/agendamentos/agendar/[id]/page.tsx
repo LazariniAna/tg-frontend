@@ -136,8 +136,8 @@ export default function DataAgendamento() {
     <Content>
       <div className="w-full flex flex-col items-center mt-2">
         <div className="flex items-center justify-center">
-          <ContentPaste />
-          <h1 className="text-2xl font-bold mb-4 items-center pt-5">{params.id === "cadastro" ? 'Novo Agendamento' : "Editar Agendamento"}</h1>
+          <ContentPaste className=''/>
+          <h1 className="text-2xl font-bold mb-4 items-center ">{params.id === "cadastro" ? 'Novo Agendamento' : "Editar Agendamento"}</h1>
         </div>
 
         <div className='flex flex-col w-9/12 pt-6 justify-center items-center'>
