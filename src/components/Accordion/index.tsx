@@ -41,10 +41,11 @@ const AccordionItem: React.FC<{ title: string, icon?: string, children?: any, is
     }, [])
 
     return (
-        <div className="relative  max-sm:pt-1 pl-3 max-sm:border-t-2  max-sm:border-gray-300 sm:w-1/2" >
+        <div className="relative  max-sm:pt-1 pl-3 max-sm:border-t-2  max-sm:border-gray-300 sm:w-1/2" onMouseLeave={() => setIsOpen(false)}>
+            
             <button
                 className="w-full text-left max-sm:py-2 flex items-center  border-none "
-                onClick={() => setIsOpen(!isOpen)}
+                onMouseEnter={() => setIsOpen(true)}
             >
                 {/* {<Image src={iconSelected} alt={title} className='mr-2' />} */}
                 <div className='flex  '>
