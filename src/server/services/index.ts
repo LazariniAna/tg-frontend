@@ -42,6 +42,9 @@ export async function getSchedulings() {
     return response.data;
 }
 
+export async function changePassword(){
+  return await api.get(`/password/change`).then(res => res)
+}
 
 
 
