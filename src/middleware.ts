@@ -7,6 +7,7 @@ export async function middleware(request: NextRequest, response: NextResponse, e
   const cookieStore = cookies()
   const bearerAuth = cookieStore.get('Bearer');
   if (!bearerAuth) {
+    return NextResponse.next()
     return NextResponse.redirect(new URL('/login', request.url));
     const data = JSON.stringify({
       token: 'bearerAuth.value'
@@ -29,5 +30,5 @@ export async function middleware(request: NextRequest, response: NextResponse, e
 
 }
 export const config = {
-  matcher: ['/'],
+  matcher: ['/', '/agendamentos']
 }

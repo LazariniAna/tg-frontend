@@ -37,6 +37,8 @@ interface FormValues {
   telefone: string;
   cpf: string;
   address: Address;
+  senha?: string;
+  confirmarSenha?: string;
 }
 interface UserInterface {
   id: number | null;
@@ -46,7 +48,6 @@ interface UserInterface {
   cpf: string;
   address: Address;
 }
-
 
 export default function DataUsuario() {
   const params = useParams();
@@ -62,8 +63,8 @@ export default function DataUsuario() {
   const router = useRouter();
   const numeroRef = useRef<HTMLInputElement>(null);
   const [initialValues, setInitialValues] = useState<FormValues>({
-    id: null, nome: '', email: '', telefone: '', cpf: '', address: {
-      id: null, rua: '', bairro: '', estado: '', numero: '', cidade: '', cep: ''
+    id: null, nome: '', email: '', telefone: '', cpf: '', senha: '', confirmarSenha: '', address: {
+      id: null, rua: '', bairro: '', estado: '', numero: '', cidade: '', cep: '',
     }
   });
 
@@ -134,6 +135,10 @@ export default function DataUsuario() {
     }),
   });
 
+  const validPassword =(senha:string, confirmarSenha:string) => {
+    return !!(senha === confirmarSenha)
+  }
+
   useEffect(() => {
     document.title = `${params.id === "cadastro" ? 'Novo Usuário' : "Editar Usuário"} | Colégio Soberano`;
   }, [params.id]);
@@ -199,7 +204,7 @@ export default function DataUsuario() {
             enableReinitialize
           >
             {({ isSubmitting, setFieldValue, values, errors }) => (
-              <Form className='h-full flex justify-between w-full flex-col'>
+              <Form className='h-full flex justify-between w-full flex-col gap-4'>
                 <FormRow>
                   <InputForm
                     name="nome"
@@ -219,15 +224,8 @@ export default function DataUsuario() {
                     error={validation && errors.email && typeof errors.email == 'string' ? errors.email : ''}
                     className="w-8/20"
                   />
-                  {/* <InputForm
-                    name="telefone"
-                    type="text"
-                    title="Telefone"
-                    value={values.telefone}
-                    onChange={(event) => setFieldValue("telefone", event.target.value)}
-                    error={validation && errors.telefone && typeof errors.telefone == 'string' ? errors.telefone : ''}
-                    className="w-1/5"
-                  /> */}
+                </FormRow>
+                <FormRow notSpace>
                   <div className={`mb-4 max-md:w-full  w-1/4`}>
                     <label htmlFor='telefone' className="mb-2 font-bold">Telefone</label>
                     <Field name="telefone">
@@ -248,8 +246,6 @@ export default function DataUsuario() {
                     </Field>
                     <ErrorMessage name="telefone" component="div" className="flex justify-start text-red-500 pl-2" />
                   </div>
-                </FormRow>
-                <FormRow>
                   <div className={`mb-4 max-md:w-full w-1/4`}>
                     <label htmlFor='cpf' className="mb-2 font-bold">CPF</label>
                     <Field name="cpf">
@@ -271,6 +267,32 @@ export default function DataUsuario() {
                     <ErrorMessage name="cpf" component="div" className="flex justify-start text-red-500 pl-2" />
                   </div>
                 </FormRow>
+                <AccordionGeneral>
+                  <AccordionItemGeneral key={"Senha"} title="Allteração de Senha">
+                    <ChildrenGeneral>
+                      <FormRow>
+                        <InputForm
+                          name="senha"
+                          type="password"
+                          title="senha"
+                          value={values.senha}
+                          onChange={(event) => setFieldValue("senha", event.target.value)}
+                          error={validation && errors.senha && typeof errors.senha == 'string' ? errors.senha : ''}
+                          className="w-8/20"
+                        />
+                        <InputForm
+                          name="confirmarSenha"
+                          type="password"
+                          title="confirmarSenha"
+                          value={values.confirmarSenha}
+                          onChange={(event) => setFieldValue("confirmarSenha", event.target.value)}
+                          error={validation && errors.confirmarSenha && typeof errors.confirmarSenha == 'string' ? errors.confirmarSenha : ''}
+                          className="w-8/20"
+                        />
+                      </FormRow>
+                    </ChildrenGeneral>
+                  </AccordionItemGeneral>
+                </AccordionGeneral>
                 <AccordionGeneral>
                   <AccordionItemGeneral key={"Endereço"} title="Endereço">
                     <ChildrenGeneral>
@@ -378,6 +400,7 @@ export default function DataUsuario() {
                   </Button>
                   <div className="ml-8 max-mxs:ml-2">
                     <Button type="button" size="small" color="black" fill="filled" style={{ border: '2px solid black' }} onClick={() => {
+                      // if(validPassword(values.senha, values.confirmarSenha))
                       validationSchema.validate(values)
                         .then(async () => {
                           await handleSubmit(values, null);
