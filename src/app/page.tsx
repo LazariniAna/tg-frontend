@@ -104,7 +104,7 @@ export default function Home() {
               Ed. Infantil até o Ensino Fundamental 2.
             </p>
           </Link>
-          <div className="m:max-w-2/5 sm:w-2/5 w-full flex flex-col justify-center items-center text-purpleDark">
+          {/* <div className="m:max-w-2/5 sm:w-2/5 w-full flex flex-col justify-center items-center text-purpleDark">
             <Image src={imageSchool} alt="Colégio" className="rounded-3xl max-w-full" />
             <div className="flex text-center items-center">
               <h1 className="text-2xl font-bold">Unidade 2 </h1>
@@ -112,7 +112,7 @@ export default function Home() {
             <p className="text-center">
               Em breve uma nova unidade!
             </p>
-          </div>
+          </div> */}
         </div>
         <div className="w-full flex flex-wrap justify-around p-5">
           <div className="sm:max-w-2/5 sm:w-2/5 w-full text-purple text-center">
