@@ -7,7 +7,7 @@ export async function getUsers() {
   if (response && response.data)
     return response.data;
 }
-export async function getUser(id:number) {
+export async function getUser(id: number) {
   const response = await api.get(`/users/${id}`).then(res => res).catch((e) => {
   });
   if (response && response.data)
@@ -21,14 +21,14 @@ export async function getContents() {
     return response.data;
 }
 
-export async function getContent(id:number) {
+export async function getContent(id: number) {
   const response = await api.get(`/contents/${id}`).then(res => res).catch((e) => {
   });
   if (response && response.data)
     return response.data;
 }
 
-export async function getScheduling(id:number) {
+export async function getScheduling(id: number) {
   const response = await api.get(`/scheduling/${id}`).then(res => res).catch((e) => {
   });
   if (response && response.data)
@@ -42,9 +42,13 @@ export async function getSchedulings() {
     return response.data;
 }
 
-export async function changePassword(){
+export async function changePassword() {
   return await api.get(`/password/change`).then(res => res)
 }
 
-
-
+export async function login(data: { cpf: string, senha: string }) {
+  const response = await api.post(`/login`, data).then(res => res.data).catch((e) => {
+  });
+  if (response)
+    return response;
+}

@@ -2,7 +2,6 @@ import { getCookie } from '@/utils/helper';
 import axios, { AxiosInstance } from 'axios';
 import { destroyCookie, setCookie } from 'nookies';
 
-const authTokenBearer = getCookie('auth-teacher');
 const bearer = getCookie('Bearer');
 
 const api: AxiosInstance = axios.create({

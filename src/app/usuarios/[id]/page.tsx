@@ -20,6 +20,9 @@ import ConfirmDeleteModal from "@/components/Modal/confirmDeleteModal";
 import InputMask from 'react-input-mask';
 import { buscarCep, validateCpf } from "@/utils/functions";
 import InputFormRef from "@/components/Form/InputRef";
+import Switch from "react-switch";
+import { AnyARecord } from "node:dns";
+import { teacherSaved } from "@/utils/const";
 interface Address {
   id: number | null;
   rua: string;
@@ -33,6 +36,7 @@ interface Address {
 interface FormValues {
   id: number | null;
   nome: string;
+  admin: boolean;
   email: string;
   telefone: string;
   cpf: string;
@@ -60,11 +64,12 @@ export default function DataUsuario() {
   const formikRef = useRef<FormikProps<any> | null>(null);
   const [validation, setValidation] = useState(false);
   const [changePassword, setChangePassword] = useState(params.id == "cadastro" ? true : false);
+  const [admin, setAdmin] = useState(false);
   const [user, setUser] = useState<UserInterface | null>(null);
   const router = useRouter();
   const numeroRef = useRef<HTMLInputElement>(null);
   const [initialValues, setInitialValues] = useState<FormValues>({
-    id: null, nome: '', email: '', telefone: '', cpf: '', senha: '', confirmarSenha: '', address: {
+    id: null, admin: false, nome: '', email: '', telefone: '', cpf: '', senha: '', confirmarSenha: '', address: {
       id: null, rua: '', bairro: '', estado: '', numero: '', cidade: '', cep: '',
     }
   });
@@ -75,7 +80,7 @@ export default function DataUsuario() {
     setInitialValues({
       id: userData.id || null, nome: userData.nome || '', email: userData.email || '', telefone: userData.telefone || '', cpf: userData.cpf || '', address: userData.address || {
         id: null, rua: '', bairro: '', estado: '', numero: '', cidade: '', cep: ''
-      },
+      }, admin
     });
   };
 
@@ -99,7 +104,9 @@ export default function DataUsuario() {
   };
 
   const handleChangePassword = () => setChangePassword(!changePassword)
-
+  const handleAdmin = () => {
+    setAdmin(!admin)
+  }
   useEffect(() => {
     if (params.id != "cadastro") {
       getUserData(Number(params.id));
@@ -139,12 +146,12 @@ export default function DataUsuario() {
     confirmarSenha: changePassword ? Yup.string().nonNullable().required('Confirmar senha é obrigatório') : Yup.string(),
   });
 
-  const validPassword =(senha:string, confirmarSenha:string) => {
+  const validPassword = (senha: string, confirmarSenha: string) => {
     return !!(senha === confirmarSenha)
   }
 
   useEffect(() => {
-    document.title = `${params.id === "cadastro" ? 'Novo Usuário' : "Editar Usuário"} | Colégio Soberano`;
+    document.title = `${params.id === "cadastro" ? 'Cadastrar' : "Editar Usuário"} | Colégio Soberano`;
   }, [params.id]);
 
   useEffect(() => {
@@ -155,15 +162,20 @@ export default function DataUsuario() {
     if (allowDelete) handleDelete();
   }, [allowDelete]);
 
-  const handleSubmit = async (values: any, actions: any) => {
+  const handleSubmit = async (values: any) => {
     setLoading(true);
-    
-    let data = { ...values }; 
+    let data = { ...values };
     if (!changePassword && params.id !== "cadastro") {
-      const { senha, confirmarSenha, ...rest } = data; 
-      data = rest; 
+      const { senha, confirmarSenha, ...rest } = data;
+      data = rest;
     }
-    // return console.log(data)
+
+    if (changePassword && !validPassword(data.senha, data.confirmarSenha)) {
+      setLoading(false);
+      showErrorToast("Senhas não conferem!");
+      return;
+    }
+
     try {
       if (params.id === "cadastro") {
         const res = await api.post('/users', data).then((res) => {
@@ -181,7 +193,7 @@ export default function DataUsuario() {
       showErrorToast("Erro ao salvar usuário!");
     }
   };
-  
+
 
   const handleDelete = async () => {
     setLoading(true);
@@ -202,9 +214,9 @@ export default function DataUsuario() {
       <div className="w-full flex flex-col items-center mt-2 pb-24">
         <div className="flex items-center justify-center">
           <Person />
-          <h1 className="text-2xl font-bold mb-4 items-center">{params.id === "cadastro" ? 'Novo Usuário' : "Editar Usuário"}</h1>
+          <h1 className="text-2xl font-bold mb-4 items-center">{params.id === "cadastro" ? 'Cadastrar' : "Editar Usuário"}</h1>
         </div>
-        <button onClick={()=> handleChangePassword()}>Alterar senha</button>
+
 
         <div className='flex flex-col w-9/12 pt-6 justify-center items-center'>
           <Formik<FormValues>
@@ -216,6 +228,28 @@ export default function DataUsuario() {
           >
             {({ isSubmitting, setFieldValue, values, errors }) => (
               <Form className='h-full flex justify-between w-full flex-col gap-4'>
+                <div className="flex items-center justify-center gap-6">
+                  {teacherSaved.admin && (
+                    <div className=" flex flex-col items-center justify-center">
+                      <label className="text-xs text-gray-500">Admin</label>
+                      <Switch onChange={(e) => {
+                        setFieldValue('admin', !admin)
+                        handleAdmin();
+                      }} checked={admin}
+                        offColor="#63666a" onColor="#6496a1" uncheckedIcon={false} checkedIcon={false}
+                      />
+                    </div>
+                  )}
+                  {params.id != "cadastro" && (
+                    <div className=" flex flex-col items-center justify-center">
+                      <label className="text-xs text-gray-500">Alterar senha</label>
+                      <Switch onChange={() => handleChangePassword()} checked={changePassword}
+                        offColor="#63666a" onColor="#6496a1" uncheckedIcon={false} checkedIcon={false}
+                      />
+                    </div>
+                  )}
+
+                </div>
                 <FormRow>
                   <InputForm
                     name="nome"
@@ -278,7 +312,36 @@ export default function DataUsuario() {
                     <ErrorMessage name="cpf" component="div" className="flex justify-start text-red-500 pl-2" />
                   </div>
                 </FormRow>
-               <AccordionGeneral>
+                {changePassword && (
+                  <AccordionGeneral>
+                    <AccordionItemGeneral key={"Senha"} title="Alteração de Senha">
+                      <ChildrenGeneral>
+                        <FormRow>
+                          <InputForm
+                            name="senha"
+                            type="password"
+                            title="senha"
+                            value={values.senha}
+                            onChange={(event) => setFieldValue("senha", event.target.value)}
+                            error={validation && errors.senha && typeof errors.senha == 'string' ? errors.senha : ''}
+                            className="w-8/20"
+                          />
+                          <InputForm
+                            name="Confirmar Senha"
+                            type="password"
+                            title="confirmarSenha"
+                            value={values.confirmarSenha}
+                            onChange={(event) => setFieldValue("confirmarSenha", event.target.value)}
+                            error={validation && errors.confirmarSenha && typeof errors.confirmarSenha == 'string' ? errors.confirmarSenha : ''}
+                            className="w-8/20"
+                          />
+                        </FormRow>
+                      </ChildrenGeneral>
+                    </AccordionItemGeneral>
+                  </AccordionGeneral>
+                )}
+
+                <AccordionGeneral>
                   <AccordionItemGeneral key={"Endereço"} title="Endereço">
                     <ChildrenGeneral>
                       <FormRow>
@@ -372,37 +435,7 @@ export default function DataUsuario() {
                     </ChildrenGeneral>
                   </AccordionItemGeneral>
                 </AccordionGeneral>
-                {changePassword && (
-                <AccordionGeneral>
-                  <AccordionItemGeneral key={"Senha"} title="Alteração de Senha">
-                    <ChildrenGeneral>
-                      <FormRow>
-                        <InputForm
-                          name="senha"
-                          type="password"
-                          title="senha"
-                          value={values.senha}
-                          onChange={(event) => setFieldValue("senha", event.target.value)}
-                          error={validation && errors.senha && typeof errors.senha == 'string' ? errors.senha : ''}
-                          className="w-8/20"
-                        />
-                        <InputForm
-                          name="Confirmar Senha"
-                          type="password"
-                          title="confirmarSenha"
-                          value={values.confirmarSenha}
-                          onChange={(event) => setFieldValue("confirmarSenha", event.target.value)}
-                          error={validation && errors.confirmarSenha && typeof errors.confirmarSenha == 'string' ? errors.confirmarSenha : ''}
-                          className="w-8/20"
-                        />
-                      </FormRow>
-                      <>{console.log(validation)}</>
-                      <>{console.log(errors)}</>
-                      <>{console.log(formikRef)}</>
-                    </ChildrenGeneral>
-                  </AccordionItemGeneral>
-                </AccordionGeneral>
-                )}
+
                 <ContentFixedButton>
                   {params.id != "cadastro" ?
                     <div className="mr-8 max-mxs:mr-2">
@@ -416,16 +449,14 @@ export default function DataUsuario() {
                   </Button>
                   <div className="ml-8 max-mxs:ml-2">
                     <Button type="button" size="small" color="black" fill="filled" style={{ border: '2px solid black' }} onClick={() => {
-                    values.senha &&  values.confirmarSenha && !!validPassword(values.senha, values.confirmarSenha) ?
                       validationSchema.validate(values)
                         .then(async () => {
-                          await handleSubmit(values, null);
+                          await handleSubmit(values);
                         })
                         .catch((e) => {
                           setValidation(true);
                           showErrorToast(e.toString().replace(/^[^:]+:\s*/, ""));
                         })
-                        : showErrorToast("Senhas não conferem!");
                     }}>
                       SALVAR
                     </Button>

@@ -42,7 +42,7 @@ const AccordionItem: React.FC<{ title: string, icon?: string, children?: any, is
 
     return (
         <div className="relative  max-sm:pt-1 pl-3 max-sm:border-t-2  max-sm:border-gray-300 sm:w-1/2" onMouseLeave={() => setIsOpen(false)}>
-            
+
             <button
                 className="w-full text-left max-sm:py-2 flex items-center  border-none "
                 onMouseEnter={() => setIsOpen(true)}
@@ -104,7 +104,7 @@ const ChildrenGeneral: React.FC<{ children: ReactNode }> = ({ children }) => {
         </div>
     );
 };
-const AccordionItemGeneral: React.FC<{ title: string, children?: any,}> = ({ title, children }) => {
+const AccordionItemGeneral: React.FC<{ title: string, children?: any, }> = ({ title, children }) => {
     const [isOpen, setIsOpen] = useState(true);
 
     return (
@@ -115,7 +115,7 @@ const AccordionItemGeneral: React.FC<{ title: string, children?: any,}> = ({ tit
                 type='button'
             >
                 <div className='flex w-full items-center'>
-                    <div className={`hover:scale-110 pr-3 font-bold text-2xl text-darkBlue`}>
+                    <div className={`hover:scale-105 pr-3 font-bold text-2xl text-darkBlue`}>
                         {title}
                     </div>
                     <div className={`${isOpen && 'transform rotate-180'}`}>

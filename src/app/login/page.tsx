@@ -15,12 +15,12 @@ import { showErrorToast } from "@/utils/messages.helper";
 import FormRow from "@/components/Form/FormRow";
 import ContentFixedButton from "@/components/Button/ContentFixedButton";
 import InputForm from "@/components/Form/Input";
-import { getUsers } from "@/server/services";
+import { getUsers, login } from "@/server/services";
 import { useUser } from "@/contexts/UserContext";
 
 interface FormValues {
-  user: string;
-  password: string;
+  cpf: string;
+  senha: string;
 }
 
 
@@ -31,7 +31,7 @@ export default function Login() {
   const [validation, setValidation] = useState(false);
   const [users, setUsers] = useState([]);
   const [initialValues, setInitialValues] = useState<FormValues>({
-    user: '', password: ''
+    cpf: '', senha: ''
   });
   const formikRef = useRef<FormikProps<any> | null>(null);
 
@@ -42,10 +42,9 @@ export default function Login() {
     getUser()
   }, [])
 
-
   const validationSchema = Yup.object().shape({
-    user: Yup.string().nonNullable().required('Usuário é obrigatório'),
-    password: Yup.string().nonNullable().required('Senha é obrigatório'),
+    cpf: Yup.string().nonNullable().required('CPF é obrigatório'),
+    senha: Yup.string().nonNullable().required('Senha é obrigatório'),
   });
   const getUser = async () => {
     const users = await getUsers();
@@ -53,16 +52,19 @@ export default function Login() {
     console.log(users)
   }
 
-  const handleSubmit = async (values: any, actions: any) => {
+  const handleSubmit = async (values: any) => {
     setLoading(true);
     try {
       let data = {
         ...values
       };
-      const loggedInUser = users.length > 0 ? users[0] : null;
-      setCookie(null, 'Bearer', "teste");
-      localStorage.setItem('user_soberano', JSON.stringify(loggedInUser));
-      setUser(loggedInUser);
+
+      const logged = await login(data);
+
+      const loggedUser = logged.user
+      setCookie(null, 'Bearer', JSON.stringify(logged.token));
+      localStorage.setItem('user_soberano', JSON.stringify(loggedUser));
+      setUser(loggedUser);
       setLoading(false);
       setTimeout(() => window.location.assign('/'), 500)
     } catch (error) {
@@ -87,21 +89,21 @@ export default function Login() {
               <div className="">
                 <FormRow>
                   <InputForm
-                    name="user"
+                    name="cpf"
                     type="text"
-                    title="Usuário"
-                    value={values.user}
-                    onChange={(event) => setFieldValue("user", event.target.value)}
-                    error={validation && errors.user && typeof errors.user == 'string' ? errors.user : ''}
+                    title="CPF"
+                    value={values.cpf}
+                    onChange={(event) => setFieldValue("cpf", event.target.value)}
+                    error={validation && errors.cpf && typeof errors.cpf == 'string' ? errors.cpf : ''}
                     className="w-full"
                   />
                   <InputForm
-                    name="password"
+                    name="senha"
                     type="password"
                     title="Senha"
-                    value={values.password}
-                    onChange={(event) => setFieldValue("password", event.target.value)}
-                    error={validation && errors.password && typeof errors.password == 'string' ? errors.password : ''}
+                    value={values.senha}
+                    onChange={(event) => setFieldValue("senha", event.target.value)}
+                    error={validation && errors.senha && typeof errors.senha == 'string' ? errors.senha : ''}
                     className="w-full"
                   />
                 </FormRow>
@@ -110,7 +112,7 @@ export default function Login() {
                   <Button size="small" color="black" fill="filled" className="w-32" style={{ border: '2px solid black' }} onClick={() => {
                     validationSchema.validate(values)
                       .then(() => {
-                        handleSubmit(values, null);
+                        handleSubmit(values);
                       })
                       .catch((e) => {
                         setValidation(true);
