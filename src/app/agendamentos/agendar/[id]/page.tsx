@@ -56,7 +56,6 @@ export default function DataAgendamento() {
     if (params.id != "cadastro") {
       getData(Number(params.id));
     }
-    console.log('user', user)
   }, [params.id]);
 
   const handleModalConfirm = () => setIsOpenConfirm(!isOpenConfirm);
@@ -136,7 +135,7 @@ export default function DataAgendamento() {
     <Content>
       <div className="w-full flex flex-col items-center mt-2">
         <div className="flex items-center justify-center">
-          <ContentPaste className=''/>
+          <ContentPaste className='' />
           <h1 className="text-2xl font-bold mb-4 items-center ">{params.id === "cadastro" ? 'Novo Agendamento' : "Editar Agendamento"}</h1>
         </div>
 

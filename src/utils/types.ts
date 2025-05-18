@@ -10,21 +10,21 @@ export interface PollForm {
     teacher_id?: number,
     students?: Students,
     diagnostic_assessment_students
-?: Students,
+    ?: Students,
     classe?: ClassData,
     class?: ClassData,
     hypothesis_id?: number,
     isPrevious?: boolean,
 }
 
-export interface SavePoll{
+export interface SavePoll {
     diagnostic_assessment_type_id: number,
     class_id: number,
     month: string,
     students: Students,
-    id?:number 
+    id?: number
 }
-  
+
 export interface ClassData {
     active?: number,
     cod_inep?: number,
@@ -82,14 +82,14 @@ export interface LocalState {
     state?: State,
     municipality?: Municipality,
     schools?: Schools
-    
+
 }
 
 export interface LocationState {
     states?: State,
     cities?: Municipality,
     schools?: Schools
-    
+
 }
 export interface ClassState {
     cod_inep?: number,
@@ -137,7 +137,7 @@ export interface Student {
     comment_?: boolean,
     color?: string,
     hypothese?: any,
-    student?:StudentBasic
+    student?: StudentBasic
 }
 
 export interface StudentBasic {
@@ -157,6 +157,7 @@ export interface MenuState {
     open: boolean;
     itensMenu: MenuItems,
     visible: boolean,
+    onlyAdm?: boolean,
 }
 export type MenuItems = MenuItem[];
 
@@ -165,7 +166,8 @@ export interface MenuItem {
     icon?: string;
     childrens?: MenuItems;
     url?: string | undefined;
-    isDisabled?:boolean;
+    isDisabled?: boolean;
+    onlyAdm?: boolean,
 }
 
 export interface State {
@@ -232,34 +234,34 @@ export interface HypotheseBack {
 
 export interface OptionsRadio {
     name: string;
-    value:string,
-    id:number,
-    label:string;
-    question_id:string;
-    option_id:string;
-  }
+    value: string,
+    id: number,
+    label: string;
+    question_id: string;
+    option_id: string;
+}
 
-  export type Contents = ContentItems[];
+export type Contents = ContentItems[];
 
-  export interface ContentItems{
-    id:number,
+export interface ContentItems {
+    id: number,
     text: string,
-    title:string,
-    subtitle:string,
-    image:string,
-  }
+    title: string,
+    subtitle: string,
+    image: string,
+}
 
-  export interface PlansItems{
-    id:number,
+export interface PlansItems {
+    id: number,
     type: string,
     title: string,
     grade: string,
     link: string,
     cod: string,
     image: string,
-  }
-  export interface ToolsItems{
-    id:number,
+}
+export interface ToolsItems {
+    id: number,
     title: string,
     info: string,
     image: string,
@@ -267,14 +269,14 @@ export interface OptionsRadio {
     redirect?: string,
     redirectName?: string,
     linkImage?: string,
-  }
+}
 
-  export interface MaterialsItems{
-    id:number,
+export interface MaterialsItems {
+    id: number,
     type: string,
     title: string,
     grade: string,
     link: string,
     document: string,
     sub_title: string,
-  }
+}

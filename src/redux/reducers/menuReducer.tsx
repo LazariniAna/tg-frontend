@@ -33,8 +33,8 @@ const initialState: MenuState = {
       title: "Eventos",
       icon: 'chalkboard-user.svg',
       childrens: [
-        { title: "Publicar eventos (admin)", url: "/conteudos/publicar-conteudo/cadastro", isDisabled: false },
-        { title: "Lista de eventos (Admin)", url: "/conteudos", isDisabled: false },
+        { title: "Publicar eventos", url: "/conteudos/publicar-conteudo/cadastro", isDisabled: false, onlyAdm: true },
+        { title: "Lista de eventos", url: "/conteudos", isDisabled: false, onlyAdm: true },
         { title: "Eventos", url: "/conteudos/publicados", isDisabled: false },
       ],
       isDisabled: false
@@ -46,7 +46,8 @@ const initialState: MenuState = {
         { title: "Cadastrar novo usuário", url: "/usuarios/cadastro" },
         { title: "Usuários", url: "/usuarios" }
       ],
-      isDisabled: false
+      isDisabled: false,
+      onlyAdm: true
     },
   ]
 };

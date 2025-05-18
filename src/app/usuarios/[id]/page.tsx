@@ -318,9 +318,9 @@ export default function DataUsuario() {
                       <ChildrenGeneral>
                         <FormRow>
                           <InputForm
-                            name="senha"
+                            name="Senha"
                             type="password"
-                            title="senha"
+                            title="Senha"
                             value={values.senha}
                             onChange={(event) => setFieldValue("senha", event.target.value)}
                             error={validation && errors.senha && typeof errors.senha == 'string' ? errors.senha : ''}
@@ -329,7 +329,7 @@ export default function DataUsuario() {
                           <InputForm
                             name="Confirmar Senha"
                             type="password"
-                            title="confirmarSenha"
+                            title="Confirmar Senha"
                             value={values.confirmarSenha}
                             onChange={(event) => setFieldValue("confirmarSenha", event.target.value)}
                             error={validation && errors.confirmarSenha && typeof errors.confirmarSenha == 'string' ? errors.confirmarSenha : ''}

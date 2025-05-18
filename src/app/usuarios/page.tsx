@@ -5,8 +5,10 @@ import LoadingOverlay from "@/components/Loading";
 import ConfirmDeleteModal from "@/components/Modal/confirmDeleteModal";
 import api from "@/server/api";
 import { getUsers } from "@/server/services";
+import { teacherSaved } from "@/utils/const";
 import { showErrorToast } from "@/utils/messages.helper";
 import { Edit, DeleteOutline } from "@mui/icons-material";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import DataTable from 'react-data-table-component';
 
@@ -16,6 +18,7 @@ export default function Usuario() {
     const [isOpenConfirmDelete, setIsOpenConfirmDelete] = useState(false);
     const [allowDelete, setAllowDelete] = useState(false);
     const [idSelected, setIdSelected] = useState<number | null>(null);
+    const router = useRouter()
     useEffect(() => {
         const fetchData = async () => {
             const usersData = await getUsers();
@@ -53,10 +56,10 @@ export default function Usuario() {
                 <div className="flex gap-3">
                     <div className="bg-darkBlue rounded p-1 cursor-pointer" onClick={() => window.location.assign(`/usuarios/${row.id}`)}><Edit fontSize="small" />
                     </div>
-                    <div className="bg-warning rounded p-1 cursor-pointer" onClick={() =>{
+                    <div className="bg-warning rounded p-1 cursor-pointer" onClick={() => {
                         setAllowDelete(false)
                         handleModalConfirmDelete(row.id);
-                        }}><DeleteOutline fontSize="small" /></div>
+                    }}><DeleteOutline fontSize="small" /></div>
                 </div>
             ),
             center: true,
@@ -130,11 +133,15 @@ export default function Usuario() {
         }
     };
 
-    const handleModalConfirmDelete = (id:number) => {setIdSelected(id);setIsOpenConfirmDelete(!isOpenConfirmDelete)};
+    const handleModalConfirmDelete = (id: number) => { setIdSelected(id); setIsOpenConfirmDelete(!isOpenConfirmDelete) };
 
     useEffect(() => {
         if (allowDelete && idSelected) handleDelete(idSelected);
     }, [isOpenConfirmDelete]);
+
+    useEffect(() => {
+        if (teacherSaved.admin) router.replace('/')
+    }, []);
 
     if (loading) {
         return <LoadingOverlay />;

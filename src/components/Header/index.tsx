@@ -29,13 +29,8 @@ export default function Header() {
   }
 
   useEffect(() => {
-    const bearerAuth = getCookie('Bearer');
     setShowMenu(true)
   }, [menu])
-
-  useEffect(() => {
-    console.log(getCookie('Bearer'))
-  }, [])
 
   return (
     <div className="bg-primary rounded-bl-2xl rounded-br-2xl py-5 flex w-full fixed z-90">

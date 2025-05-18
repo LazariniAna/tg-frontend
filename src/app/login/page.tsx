@@ -49,7 +49,6 @@ export default function Login() {
   const getUser = async () => {
     const users = await getUsers();
     setUsers(users)
-    console.log(users)
   }
 
   const handleSubmit = async (values: any) => {

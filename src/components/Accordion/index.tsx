@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import Arrow from '../../assets/arrow-down-line.svg';
 import Link from 'next/link';
@@ -8,6 +8,7 @@ import Alunos from "../../assets/users.svg"
 import Scribble from "../../assets/scribble.svg"
 import ChalkboardUser from "../../assets/chalkboard-user.svg"
 import { cleanMockStatusValues } from '@/utils/helper';
+import { teacherSaved } from '@/utils/const';
 
 declare global {
     interface Window {
@@ -15,7 +16,7 @@ declare global {
     }
 }
 
-const AccordionItem: React.FC<{ title: string, icon?: string, children?: any, isDisabled?: boolean, url?: string }> = ({ title, children, icon, isDisabled, url }) => {
+const AccordionItem: React.FC<{ itemMenu?: any, title: string, icon?: string, children?: any, isDisabled?: boolean, url?: string }> = ({ title, children, icon, isDisabled, url, itemMenu }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [iconSelected, setIconSelected] = useState<any>(<></>);
     const [isViewed, setIsViewed] = useState<boolean>(false);
@@ -41,7 +42,7 @@ const AccordionItem: React.FC<{ title: string, icon?: string, children?: any, is
     }, [])
 
     return (
-        <div className="relative  max-sm:pt-1 pl-3 max-sm:border-t-2  max-sm:border-gray-300 sm:w-1/2" onMouseLeave={() => setIsOpen(false)}>
+        <div className={`${itemMenu.onlyAdm && !teacherSaved.admin && 'hidden'} relative  max-sm:pt-1 pl-3 max-sm:border-t-2  max-sm:border-gray-300 sm:w-1/2`} onMouseLeave={() => setIsOpen(false)}>
 
             <button
                 className="w-full text-left max-sm:py-2 flex items-center  border-none "
@@ -72,7 +73,7 @@ const Accordion: React.FC<{ children: ReactNode }> = ({ children }) => {
     return <div className="sm:flex sm:w-full">{children}</div>;
 };
 
-const ChildrenAccordion: React.FC<{ title: string, url?: string, isChildDisabled?: boolean }> = ({ title, url, isChildDisabled }) => {
+const ChildrenAccordion: React.FC<{ title: string, url?: string, isChildDisabled?: boolean, menuChildren?: any }> = ({ title, url, isChildDisabled, menuChildren }) => {
 
     const dispatch = useDispatch();
     function handleMenu() {
@@ -81,7 +82,7 @@ const ChildrenAccordion: React.FC<{ title: string, url?: string, isChildDisabled
     }
 
     return (
-        <div className="relative" >
+        <div className={`relative ${menuChildren.onlyAdm && !teacherSaved.admin && 'hidden'}`} >
             <p className='pl-3 py-2'>
                 {isChildDisabled ?
                     <div className="absolute inset-0 bg-lightGray opacity-50 z-50 " ></div>

@@ -65,8 +65,6 @@ export default function Agendamentos() {
             width: '15%',
 
             sortFunction: ((a: any, b: any) => {
-                console.log(a)
-                console.log(b)
                 return new Date(a.data_hora) < new Date(b.data_hora) ? -1 : 1
             })
         },
