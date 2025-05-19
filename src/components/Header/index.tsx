@@ -15,6 +15,7 @@ import { destroyCookie } from "nookies";
 import { PersonOutline } from '@mui/icons-material';
 import { useUser } from "@/contexts/UserContext";
 import { Login } from '@mui/icons-material';
+import { teacherSaved } from "@/utils/const";
 
 export default function Header() {
   const router = useRouter()
@@ -60,7 +61,10 @@ export default function Header() {
                 </div>
               </div>
               {isDropdownVisible && (
-                <div className="absolute top-full right-0  bg-black text-white rounded-md shadow-lg w-40 p-2">
+                <div className="absolute top-full right-0  bg-black text-white rounded-md shadow-lg w-40 p-2 gap-2 flex flex-col">
+                  <div className="flex hover:bg-gray-700 cursor-pointer gap-3" onClick={() => {router.push(`/usuarios/${teacherSaved.id}`)}} >
+                    Meu Perfil
+                  </div>
                   <div className="flex hover:bg-gray-700 cursor-pointer gap-3" onClick={() => {
                     destroyCookie(null, "Bearer");
                     setUser(null)
@@ -75,10 +79,16 @@ export default function Header() {
               )}
             </div>
           ) : (
-            <div className="flex flex-col justify-center items-center text-white cursor-pointer">
-              <Login onClick={() => window.location.assign('/login')} fontSize="medium" />
-              Entrar
+            <div className="flex justify-center items-center text-sm text-white cursor-pointer space-x-2">
+              <div onClick={() => window.location.assign('/login')} className="flex items-center justify-center">
+                <span>Entrar</span>
+              </div>
+              <span className="text-white">|</span>
+              <div onClick={() => router.push('/usuarios/cadastro')} className="flex flex-col items-center justify-center">
+                <span className="text-sm">Cadastrar</span>
+              </div>
             </div>
+
           )}
         </div>
       </div>

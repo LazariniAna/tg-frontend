@@ -8,7 +8,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { getCookie } from "@/utils/helper";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/Button";
-import { Form, Formik, FormikProps } from "formik";
+import { Field, Form, Formik, FormikProps } from "formik";
 import * as Yup from 'yup';
 import api from "@/server/api";
 import { showErrorToast } from "@/utils/messages.helper";
@@ -17,6 +17,7 @@ import ContentFixedButton from "@/components/Button/ContentFixedButton";
 import InputForm from "@/components/Form/Input";
 import { getUsers, login } from "@/server/services";
 import { useUser } from "@/contexts/UserContext";
+import InputMask from 'react-input-mask';
 
 interface FormValues {
   cpf: string;
@@ -87,15 +88,25 @@ export default function Login() {
             <Form className=''>
               <div className="">
                 <FormRow>
-                  <InputForm
-                    name="cpf"
-                    type="text"
-                    title="CPF"
-                    value={values.cpf}
-                    onChange={(event) => setFieldValue("cpf", event.target.value)}
-                    error={validation && errors.cpf && typeof errors.cpf == 'string' ? errors.cpf : ''}
-                    className="w-full"
-                  />
+                  <div className="flex flex-col w-full">
+                    <label htmlFor='cpf' className="font-bold">CPF</label>
+                    <Field name="cpf">
+                      {({ field }: { field: any }) => (
+                        <InputMask
+                          {...field}
+                          mask="999.999.999-99"
+                          onChange={(e: any) => setFieldValue("cpf", e.target.value)}
+                        >
+                          {(inputProps: any) => (
+                            <input
+                              {...inputProps}
+                              className="w-full py-2 px-3 border border-gray-300 rounded-md"
+                            />
+                          )}
+                        </InputMask>
+                      )}
+                    </Field>
+                  </div>
                   <InputForm
                     name="senha"
                     type="password"
@@ -107,7 +118,12 @@ export default function Login() {
                   />
                 </FormRow>
 
-                <div className="flex justify-end">
+                <div className="flex justify-end gap-4">
+                  <Button size="small" color="white" fill="filled" className="" style={{ border: '2px solid black' }} onClick={() => {
+                    router.push('/usuarios/cadastro')
+                  }}>
+                    CADASTRE-SE
+                  </Button>
                   <Button size="small" color="black" fill="filled" className="w-32" style={{ border: '2px solid black' }} onClick={() => {
                     validationSchema.validate(values)
                       .then(() => {

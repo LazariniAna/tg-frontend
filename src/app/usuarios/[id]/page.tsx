@@ -314,7 +314,7 @@ export default function DataUsuario() {
                 </FormRow>
                 {changePassword && (
                   <AccordionGeneral>
-                    <AccordionItemGeneral key={"Senha"} title="Alteração de Senha">
+                    <AccordionItemGeneral key={"Senha"} title="Senha">
                       <ChildrenGeneral>
                         <FormRow>
                           <InputForm
