@@ -22,7 +22,7 @@ export default function Sobre() {
             <div className="w-11/12 py-5 flex justify-center items-center flex-col gap-10">
                 <div className="w-full flex flex-col justify-center items-center ">
                     <h1 className="text-5xl font-bold text-center text-purpleDark">
-                        Colégio Sol
+                        Colégio Soberano
                     </h1>
                     <h1 className="text-3xl font-bold text-center text-gray-400">
                         Há 19 anos lapidando mentes brilhantes!

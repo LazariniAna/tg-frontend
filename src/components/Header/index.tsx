@@ -43,7 +43,7 @@ export default function Header() {
           <div className="flex justify-center w-9/12">
             <Link href={'/'} onClick={() => { cleanMockStatusValues() }} className=" flex items-center">
               <Image src={Logo} alt="Logo" width={125} />
-              <i className="text-2xl max-sm:hidden text-zinc-50 no-underline "><b>Colégio</b>Sol</i>
+              <i className="text-2xl max-sm:hidden text-zinc-50 no-underline "><b>Colégio</b>Soberano</i>
             </Link>
           </div>
 

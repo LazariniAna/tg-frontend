@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <head>
-        <title>Colégio Sol</title>
+        <title>Colégio Soberano</title>
         <meta charSet='utf-8' />
       </head>
       <body className={inter.className}>
