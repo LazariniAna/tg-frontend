@@ -34,16 +34,6 @@ export default function Menu({ fixed, showMenu }: { fixed?: boolean, showMenu?: 
             <div className="sm:hidden pb-4 sm:pt-5 w-full flex justify-end items-end"><Image src={Close} alt='Fechar' className="mr-5 cursor-pointer" onClick={handleMenu} /></div>
             <div className="w-11/12 h-full flex flex-col justify-between">
                 <div className="w-full sm:flex">
-                    {/* <Link href={'/'} onClick={cleanMockValues} className="flex justify-center">
-                        <div className="flex max-sm:w-full max-sm:items-center  max-sm:h-5 max-sm:pl-3 max-sm:pb-5" onClick={handleMenu}>
-                            <div className='mr-2'>
-                                <Image src={House} alt="Logo" />
-                            </div>
-                            <h2 className={`sm:hidden w-9/12 ${isHomePage ? 'font-bold' : ''}`}>
-                                Painel Inicial
-                            </h2 >
-                        </div>
-                    </Link> */}
                     <Accordion>
                         {menu?.itensMenu?.length && menu?.itensMenu.map((item: MenuItem) => (
                             <AccordionItem key={item.title} itemMenu={item} title={item.title} icon={item.icon} url={item?.url}>

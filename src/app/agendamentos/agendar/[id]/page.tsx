@@ -21,6 +21,8 @@ import ConfirmDeleteModal from "@/components/Modal/confirmDeleteModal";
 import DateTimeInput from '@/components/Form/DateTimeInput';
 import TextareaForm from '@/components/Form/TextArea';
 import { useUser } from '@/contexts/UserContext';
+import RedirectLogin from '@/components/Modal/redirectLogin';
+import { teacherSaved } from '@/utils/const';
 
 interface FormValues {
   obs: string;
@@ -34,6 +36,7 @@ export default function DataAgendamento() {
   const [allowNext, setAllowNext] = useState(false);
   const { user } = useUser();
   const [isOpenConfirmDelete, setIsOpenConfirmDelete] = useState(false);
+  const [isOpenRedirect, setIsOpenRedirect] = useState(false);
   const [allowDelete, setAllowDelete] = useState(false);
   const formikRef = useRef<FormikProps<any> | null>(null);
   const [validation, setValidation] = useState(false);
@@ -76,6 +79,10 @@ export default function DataAgendamento() {
   useEffect(() => {
     if (allowDelete) handleDelete();
   }, [allowDelete]);
+
+  useEffect(() => {
+    if (!Object.entries(teacherSaved).length) setIsOpenRedirect(true);
+  }, []);
 
   const handleSubmit = async (values: any, actions: any) => {
     setLoading(true);
@@ -197,6 +204,7 @@ export default function DataAgendamento() {
       </div>
       <ConfirmModal isOpenModal={isOpenConfirm} setIsOpenModal={setIsOpenConfirm} allow={allowNext} setAllow={setAllowNext} />
       <ConfirmDeleteModal isOpenModal={isOpenConfirmDelete} setIsOpenModal={setIsOpenConfirmDelete} allow={allowDelete} setAllow={setAllowDelete} />
+      <RedirectLogin isOpenModal={isOpenRedirect} setIsOpenModal={setIsOpenRedirect} />
       {loading && <LoadingOverlay />}
     </Content>
   );

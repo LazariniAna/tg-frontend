@@ -12,7 +12,7 @@ const initialState: MenuState = {
       isDisabled: false
     },
     {
-      title: "Sobre",
+      title: "O Colégio",
       icon: 'scribble.svg',
       childrens: [
         { title: "Sobre a escola", url: "/sobre" },

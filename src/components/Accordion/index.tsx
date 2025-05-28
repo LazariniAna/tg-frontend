@@ -42,14 +42,15 @@ const AccordionItem: React.FC<{ itemMenu?: any, title: string, icon?: string, ch
     }, [])
 
     return (
-        <div className={`${itemMenu.onlyAdm && !teacherSaved.admin && 'hidden'} relative  max-sm:pt-1 pl-3 max-sm:border-t-2  max-sm:border-gray-300 sm:w-1/2`} onMouseLeave={() => setIsOpen(false)}>
+        <div className={`${itemMenu.onlyAdm && !teacherSaved.admin && 'hidden'} relative  max-sm:pt-1 pl-3 max-sm:border-t-2  max-sm:border-gray-300 sm:w-1/2`}
+            onMouseLeave={() => setIsOpen(false)}
+        >
 
             <button
-                className="w-full text-left max-sm:py-2 flex items-center  border-none "
+                className="w-full  max-sm:py-2 flex items-center sm:justify-center border-none "
                 onMouseEnter={() => setIsOpen(true)}
             >
-                {/* {<Image src={iconSelected} alt={title} className='mr-2' />} */}
-                <div className='flex  '>
+                <div className='flex'>
                     <div className={`pr-3 ${isViewed ? 'font-bold' : ''}`} onClick={() => url ? window.location.assign(url) : null}>
                         {title}
                     </div>
@@ -70,7 +71,7 @@ const AccordionItem: React.FC<{ itemMenu?: any, title: string, icon?: string, ch
 };
 
 const Accordion: React.FC<{ children: ReactNode }> = ({ children }) => {
-    return <div className="sm:flex sm:w-full">{children}</div>;
+    return <div className="sm:flex sm:w-full justify-between">{children}</div>;
 };
 
 const ChildrenAccordion: React.FC<{ title: string, url?: string, isChildDisabled?: boolean, menuChildren?: any }> = ({ title, url, isChildDisabled, menuChildren }) => {
@@ -83,7 +84,7 @@ const ChildrenAccordion: React.FC<{ title: string, url?: string, isChildDisabled
 
     return (
         <div className={`relative ${menuChildren.onlyAdm && !teacherSaved.admin && 'hidden'}`} >
-            <p className='pl-3 py-2'>
+            <p className='sm:text-center max-sm:pl-3 py-2 '>
                 {isChildDisabled ?
                     <div className="absolute inset-0 bg-lightGray opacity-50 z-50 " ></div>
                     : null}
@@ -111,7 +112,7 @@ const AccordionItemGeneral: React.FC<{ title: string, children?: any, }> = ({ ti
     return (
         <div className="relative max-sm:pt-1 max-sm:border-t-2  max-sm:border-gray-300 w-full" >
             <button
-                className="w-full text-left max-sm:py-2 flex items-center  border-none "
+                className="w-full text-left max-sm:py-2 flex items-center justify-center border-none "
                 onClick={() => setIsOpen(!isOpen)}
                 type='button'
             >
@@ -127,7 +128,7 @@ const AccordionItemGeneral: React.FC<{ title: string, children?: any, }> = ({ ti
 
             </button>
             {isOpen && (
-                <div className="pb-2">
+                <div className="pb-2 w-full justify-center">
                     {children}
                 </div>
             )}

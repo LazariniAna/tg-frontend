@@ -140,7 +140,7 @@ export default function Usuario() {
     }, [isOpenConfirmDelete]);
 
     useEffect(() => {
-        if (teacherSaved.admin) router.replace('/')
+        if (!teacherSaved.admin) router.replace('/')
     }, []);
 
     if (loading) {

@@ -13,7 +13,7 @@ import ConfirmModal from "@/components/Modal/confirmModal";
 import ContentFixedButton from "@/components/Button/ContentFixedButton";
 import InputForm from "@/components/Form/Input";
 import { Button } from "@/components/Button";
-import { getUser } from "@/server/services";
+import { createUser, getUser, updateUser } from "@/server/services";
 import FormRow from "@/components/Form/FormRow";
 import { AccordionGeneral, AccordionItemGeneral, ChildrenGeneral } from "@/components/Accordion";
 import ConfirmDeleteModal from "@/components/Modal/confirmDeleteModal";
@@ -151,7 +151,7 @@ export default function DataUsuario() {
   }
 
   useEffect(() => {
-    document.title = `${params.id === "cadastro" ? 'Cadastrar' : "Editar Usuário"} | Colégio Soberano`;
+    document.title = `${params.id === "cadastro" ? 'Cadastre-se' : "Editar Usuário"} | Colégio Soberano`;
   }, [params.id]);
 
   useEffect(() => {
@@ -170,28 +170,24 @@ export default function DataUsuario() {
       data = rest;
     }
 
+    // setInitialValues(data)
     if (changePassword && !validPassword(data.senha, data.confirmarSenha)) {
       setLoading(false);
       showErrorToast("Senhas não conferem!");
       return;
     }
-
     try {
       if (params.id === "cadastro") {
-        const res = await api.post('/users', data).then((res) => {
-          window.location.assign('/usuarios');
-        });
-        setLoading(false);
+        await createUser(data).then(() => router.push('/usuarios'))
       } else {
-        await api.patch(`/users/${params.id}`, data).then((res) => {
-          window.location.assign('/usuarios');
-        });
-        setLoading(false);
+        await updateUser(params.id, data).then(() => router.push('/usuarios'))
       }
-    } catch (error) {
-      setLoading(false);
-      showErrorToast("Erro ao salvar usuário!");
+    } catch (e) {
+      console.log(e)
+    } finally {
+      setLoading(false)
     }
+
   };
 
 
@@ -214,7 +210,7 @@ export default function DataUsuario() {
       <div className="w-full flex flex-col items-center mt-2 pb-24">
         <div className="flex items-center justify-center">
           <Person />
-          <h1 className="text-2xl font-bold mb-4 items-center">{params.id === "cadastro" ? 'Cadastrar' : "Editar Usuário"}</h1>
+          <h1 className="text-2xl font-bold mb-4 items-center">{params.id === "cadastro" ? 'Cadastre-se' : "Editar Usuário"}</h1>
         </div>
 
 
@@ -448,16 +444,7 @@ export default function DataUsuario() {
                     VOLTAR
                   </Button>
                   <div className="ml-8 max-mxs:ml-2">
-                    <Button type="button" size="small" color="black" fill="filled" style={{ border: '2px solid black' }} onClick={() => {
-                      validationSchema.validate(values)
-                        .then(async () => {
-                          await handleSubmit(values);
-                        })
-                        .catch((e) => {
-                          setValidation(true);
-                          showErrorToast(e.toString().replace(/^[^:]+:\s*/, ""));
-                        })
-                    }}>
+                    <Button type="submit" size="small" color="black" fill="filled" style={{ border: '2px solid black' }}>
                       SALVAR
                     </Button>
                   </div>

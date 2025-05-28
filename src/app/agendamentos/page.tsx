@@ -5,11 +5,13 @@ import Content from "@/components/Content";
 import LoadingOverlay from "@/components/Loading";
 import ConfirmDeleteModal from "@/components/Modal/confirmDeleteModal";
 import api from "@/server/api";
-import { getSchedulings } from "@/server/services";
+import { getSchedulings, getSchedulingsUsers } from "@/server/services";
 import { showErrorToast } from "@/utils/messages.helper";
 import { Edit, DeleteOutline } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import DataTable from 'react-data-table-component';
+import { teacherSaved } from '@/utils/const';
+import RedirectLogin from '@/components/Modal/redirectLogin';
 
 export default function Agendamentos() {
     const [schedulings, setSchedulings] = useState([]);
@@ -17,15 +19,7 @@ export default function Agendamentos() {
     const [isOpenConfirmDelete, setIsOpenConfirmDelete] = useState(false);
     const [allowDelete, setAllowDelete] = useState(false);
     const [idSelected, setIdSelected] = useState<number | null>(null);
-    useEffect(() => {
-        const fetchData = async () => {
-            const data = await getSchedulings();
-            setSchedulings(data);
-            setLoading(false);
-        };
-
-        fetchData();
-    }, []);
+    const [isOpenRedirect, setIsOpenRedirect] = useState(false);
 
     function formatDateTime(dateStr: string) {
         const date = new Date(dateStr);
@@ -170,9 +164,28 @@ export default function Agendamentos() {
 
     const handleModalConfirmDelete = (id: number) => { setIdSelected(id); setIsOpenConfirmDelete(!isOpenConfirmDelete) };
 
+
+    useEffect(() => {
+        const fetchData = async () => {
+
+            let data;
+            if (teacherSaved.admin) data = await getSchedulings();
+            else data = await getSchedulingsUsers(teacherSaved.id);
+            setSchedulings(data);
+            setLoading(false);
+        };
+
+        fetchData();
+    }, []);
+
+
     useEffect(() => {
         if (allowDelete && idSelected) handleDelete(idSelected);
     }, [isOpenConfirmDelete]);
+
+    useEffect(() => {
+        if (!Object.entries(teacherSaved).length) setIsOpenRedirect(true);
+    }, []);
 
     if (loading) {
         return <LoadingOverlay />;
@@ -199,6 +212,7 @@ export default function Agendamentos() {
                 />
             </div>
             <ConfirmDeleteModal isOpenModal={isOpenConfirmDelete} setIsOpenModal={setIsOpenConfirmDelete} allow={allowDelete} setAllow={setAllowDelete} />
+            <RedirectLogin isOpenModal={isOpenRedirect} setIsOpenModal={setIsOpenRedirect} />
         </Content>
     );
 }
