@@ -12,6 +12,11 @@ import { useEffect, useState } from "react";
 import DataTable from 'react-data-table-component';
 import { teacherSaved } from '@/utils/const';
 import RedirectLogin from '@/components/Modal/redirectLogin';
+import CalendarComponent from '@/components/Calendar/Calendar';
+import { generateColorFromCPF } from '@/utils/functions';
+import Calendar from '../../assets/calendar.png'
+import Square from '../../assets/square.png'
+import Image from 'next/image';
 
 export default function Agendamentos() {
     const [schedulings, setSchedulings] = useState([]);
@@ -20,6 +25,7 @@ export default function Agendamentos() {
     const [allowDelete, setAllowDelete] = useState(false);
     const [idSelected, setIdSelected] = useState<number | null>(null);
     const [isOpenRedirect, setIsOpenRedirect] = useState(false);
+    const [calendarOpen, setCalendarOpen] = useState(true);
 
     function formatDateTime(dateStr: string) {
         const date = new Date(dateStr);
@@ -164,10 +170,8 @@ export default function Agendamentos() {
 
     const handleModalConfirmDelete = (id: number) => { setIdSelected(id); setIsOpenConfirmDelete(!isOpenConfirmDelete) };
 
-
     useEffect(() => {
         const fetchData = async () => {
-
             let data;
             if (teacherSaved.admin) data = await getSchedulings();
             else data = await getSchedulingsUsers(teacherSaved.id);
@@ -177,6 +181,23 @@ export default function Agendamentos() {
 
         fetchData();
     }, []);
+
+    const normalizedValues = React.useMemo(() => {
+        const result: any[] = [];
+
+        schedulings.forEach((item: any) => {
+            result.push({
+                ...item,
+                valueRedirect: item.id,
+                start: item.data_hora,
+                title: `Visita de ${item.usuario.nome}`,
+                HostName: item.usuario.nome,
+                color: generateColorFromCPF(item.usuario.cpf),
+            });
+        });
+
+        return result;
+    }, [schedulings]);
 
 
     useEffect(() => {
@@ -195,21 +216,34 @@ export default function Agendamentos() {
         <Content>
             <div className="flex flex-col items-center w-10/12 ">
                 <div className="w-full flex justify-between py-8">
-                    <h1 className="text-2xl">Lista de
-                        Agendamentos
-                    </h1>
+                    <div className='flex gap-4 justify-center items-center'>
+                        <h1 className="text-2xl">{teacherSaved.admin ? 'Lista de' : 'Meus'} Agendamentos</h1>
+                        <div className='flex items-center justify-center cursor-pointer'>
+                            <div className={`w-10  h-10 flex rounded-tl rounded-bl ${calendarOpen ? "bg-gray-800 border-gray-800 text-white hover:bg-gray-600 scale-100" : "bg-white text-gray-800 hover:bg-gray-200"} items-center justify-center text-center`} style={{ border: '1px solid black' }} onClick={() => setCalendarOpen(true)}>
+                                <Image alt='buttom' src={Calendar} width={22} className={`${calendarOpen && 'invert'}`} />
+                            </div>
+                            <div className={`w-10  h-10 flex rounded-tr rounded-br ${!calendarOpen ? "bg-gray-800 scale-100 text-white hover:bg-gray-600" : "bg-white text-gray-800 hover:bg-gray-200"} items-center justify-center `} style={{ border: '1px solid black' }} onClick={() => setCalendarOpen(false)}>
+                                <Image alt='buttom' src={Square} width={20} className={`${!calendarOpen && 'invert'}`} />
+                            </div>
+                        </div>
+                    </div>
                     <Button color="black" fill="filled" onClick={() => window.location.assign('/agendamentos/agendar/cadastro')}>Agendar</Button>
                 </div>
-                <DataTable
-                    columns={columns}
-                    data={schedulings}
-                    pagination
-                    highlightOnHover
-                    striped
-                    noDataComponent={"Não há cadastros!"}
-                    paginationComponentOptions={paginationComponentOptions}
-                    customStyles={customStyles}
-                />
+                {
+                    calendarOpen ?
+                        <CalendarComponent data={normalizedValues} />
+                        :
+                        <DataTable
+                            columns={columns}
+                            data={schedulings}
+                            pagination
+                            highlightOnHover
+                            striped
+                            noDataComponent={"Não há cadastros!"}
+                            paginationComponentOptions={paginationComponentOptions}
+                            customStyles={customStyles}
+                        />
+                }
             </div>
             <ConfirmDeleteModal isOpenModal={isOpenConfirmDelete} setIsOpenModal={setIsOpenConfirmDelete} allow={allowDelete} setAllow={setAllowDelete} />
             <RedirectLogin isOpenModal={isOpenRedirect} setIsOpenModal={setIsOpenRedirect} />

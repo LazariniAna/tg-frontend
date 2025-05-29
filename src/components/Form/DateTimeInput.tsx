@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { MobileDateTimePicker } from '@mui/x-date-pickers';
+import { DesktopDateTimePicker, MobileDateTimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
@@ -8,8 +8,10 @@ import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import 'dayjs/locale/pt-br';
 import './style.css';
-
+import localeData from 'dayjs/plugin/localeData';
+import { ptBR } from '@mui/x-date-pickers/locales';
 interface DateTimeInputProps {
+    title?: string;
     className?: string;
     value: string | null;
     error?: string;
@@ -20,9 +22,21 @@ interface DateTimeInputProps {
 dayjs.extend(localizedFormat);
 dayjs.extend(utc);
 dayjs.extend(timezone);
-dayjs.locale('pt-br');
+dayjs.extend(localeData);
 
-const DateTimeInput: React.FC<DateTimeInputProps> = ({ value, onChange, className, error, disabledDates }) => {
+// Extensão segura do locale 'pt-br'
+const customLocale = {
+    // name: 'pt-br',
+    ...dayjs.Ls['pt-br'],
+    weekdaysMin: ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sáb'],
+};
+
+// Registra novamente o locale com o nome 'pt-br'
+dayjs.locale(customLocale, undefined, true);
+
+// Define como padrão
+dayjs.locale('pt-br');
+const DateTimeInput: React.FC<DateTimeInputProps> = ({ value, onChange, className, error, disabledDates, title }) => {
     const [isClient, setIsClient] = useState(false);
 
     useEffect(() => {
@@ -34,8 +48,13 @@ const DateTimeInput: React.FC<DateTimeInputProps> = ({ value, onChange, classNam
     const parsedValue = value ? dayjs(value, 'DD/MM/YYYY HH:mm') : null;
 
     const shouldDisableDate = (date: dayjs.Dayjs) => {
-        return date.day() === 0 || date.day() === 6;
+        const today = dayjs().startOf('day');
+        const isWeekend = date.day() === 0 || date.day() === 6;
+        const isTodayOrBefore = date.isSame(today, 'day') || date.isBefore(today, 'day');
+
+        return isWeekend || isTodayOrBefore;
     };
+
 
     const shouldDisableTime = (time: dayjs.Dayjs) => {
         const hour = time.hour();
@@ -44,7 +63,8 @@ const DateTimeInput: React.FC<DateTimeInputProps> = ({ value, onChange, classNam
 
     return (
         <div className={`flex flex-col md:w-5/12 w-full ${className}`}>
-            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
+            <label className="font-bold">{title}</label>
+            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br" localeText={ptBR.components.MuiLocalizationProvider.defaultProps.localeText}>
                 <MobileDateTimePicker
                     value={parsedValue}
                     onChange={onChange}
@@ -58,6 +78,7 @@ const DateTimeInput: React.FC<DateTimeInputProps> = ({ value, onChange, classNam
                         textField: {
                             placeholder: "Selecione a data e hora",
                         },
+
                     }}
                 />
             </LocalizationProvider>

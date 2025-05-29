@@ -161,6 +161,7 @@ export default function DataAgendamento() {
                     value={values.data_hora}
                     onChange={(newValue: any) => setFieldValue("data_hora", newValue.format('DD/MM/YYYY HH:mm'))}
                     disabledDates={disabledDates}
+                    title={'Data/Horário'}
                   />
                   <TextareaForm
                     name="obs"
