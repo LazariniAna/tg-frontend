@@ -217,3 +217,21 @@ h1 {
     display: none !important;
   }
 }
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.bg-gradient-animated {
+  background: linear-gradient(270deg, #7c3aed, #c084fc, #a78bfa);
+  background-size: 600% 600%;
+  animation: gradientShift 15s ease infinite;
+}
