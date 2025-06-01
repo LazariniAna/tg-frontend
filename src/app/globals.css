@@ -233,5 +233,15 @@ h1 {
 .bg-gradient-animated {
   background: linear-gradient(270deg, #7c3aed, #c084fc, #a78bfa);
   background-size: 600% 600%;
-  animation: gradientShift 15s ease infinite;
+  animation: gradientShift 5s ease infinite;
+}
+.bg-gradient-animated-10s {
+  background: linear-gradient(270deg, #7c3aed, #c084fc, #a78bfa);
+  background-size: 600% 600%;
+  animation: gradientShift 10s ease infinite;
+}
+.bg-gradient-animated-blue {
+  background: linear-gradient(270deg, #000e3d, #00249C, #4a70ef);
+  background-size: 600% 600%;
+  animation: gradientShift 10s ease infinite;
 }

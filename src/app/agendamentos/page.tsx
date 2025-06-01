@@ -185,7 +185,7 @@ export default function Agendamentos() {
     const normalizedValues = React.useMemo(() => {
         const result: any[] = [];
 
-        schedulings.forEach((item: any) => {
+        schedulings?.forEach((item: any) => {
             result.push({
                 ...item,
                 valueRedirect: item.id,

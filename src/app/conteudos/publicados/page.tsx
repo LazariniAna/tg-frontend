@@ -30,9 +30,9 @@ export default function Conteudos() {
         <Content>
             <div className="flex flex-col items-center w-10/12 ">
                 <div className="w-full flex flex-col justify-between py-8">
-                    <h1 className="text-2xl font-bold">Eventos</h1>
+                    <h1 className="text-2xl font-bold">Programações</h1>
                 </div>
-                <div className="flex flex-wrap">
+                <div className="flex flex-wrap justify-center">
                     {contents && contents.map((content: any, index: number) => (
                         <div key={index}>
                             <ContentCard item={content} />

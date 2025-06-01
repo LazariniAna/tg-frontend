@@ -34,7 +34,7 @@ export default function Header() {
   }, [menu])
 
   return (
-    <div className="bg-primary rounded-bl-2xl rounded-br-2xl py-5 flex w-full fixed z-90">
+    <div className="bg-gradient-animated-blue rounded-bl-2xl rounded-br-2xl py-5 flex w-full fixed z-90">
       <div className="px-7 flex justify-between w-full ">
         <div className="w-full flex justify-between">
           <div className="cursor-pointer">
@@ -62,7 +62,7 @@ export default function Header() {
               </div>
               {isDropdownVisible && (
                 <div className="absolute top-full right-0  bg-black text-white rounded-md shadow-lg w-40 p-2 gap-2 flex flex-col">
-                  <div className="flex hover:bg-gray-700 cursor-pointer gap-3" onClick={() => {router.push(`/usuarios/${teacherSaved.id}`)}} >
+                  <div className="flex hover:bg-gray-700 cursor-pointer gap-3" onClick={() => { router.push(`/usuarios/${teacherSaved.id}`) }} >
                     Meu Perfil
                   </div>
                   <div className="flex hover:bg-gray-700 cursor-pointer gap-3" onClick={() => {

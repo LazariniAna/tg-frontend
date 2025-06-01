@@ -15,13 +15,13 @@ const initialState: MenuState = {
       title: "O Colégio",
       icon: 'scribble.svg',
       childrens: [
-        { title: "Sobre a escola", url: "/sobre" },
-        { title: "Calendário escolar", url: "/" },
+        { title: "Sobre nós", url: "/sobre" },
+        { title: "Matricula", url: "/matricula" },
       ],
       isDisabled: false
     },
     {
-      title: "Visita",
+      title: "Visitas",
       icon: 'chalkboard-user.svg',
       childrens: [
         { title: "Agendamentos", url: "/agendamentos", isDisabled: false },
@@ -30,7 +30,7 @@ const initialState: MenuState = {
       isDisabled: false
     },
     {
-      title: "Eventos",
+      title: "Conteúdos",
       icon: 'chalkboard-user.svg',
       childrens: [
         { title: "Publicar eventos", url: "/conteudos/publicar-conteudo/cadastro", isDisabled: false, onlyAdm: true },

@@ -8,13 +8,13 @@ export default function ContentCard({ item }: { item: ContentItems }) {
   return (
     <Link
       href={`/conteudos/publicados/${item.id}/${handleSlug(item.title)}`}
-      className="flex flex-col min-w-[265px] max-w-[265px] w-[265px] min-h-[250px] max-h-[250px] h-[250px] justify-center items-center cursor-pointer hover:shadow-lg m-4 hover:scale-105 ease-in duration-150"
+      className="flex flex-col min-w-[265px] max-w-[265px] w-[265px] min-h-[300px] max-h-[300px] h-[300px] justify-center items-center cursor-pointer hover:shadow-lg m-4 hover:scale-105 ease-in duration-150"
     >
       <div
         className="w-full flex flex-col justify-start items-center rounded-lg h-full"
         style={{ border: '2px solid #A6A9AD' }}
       >
-        <div className="flex items-center w-full rounded-lg relative" style={{ borderBottom: '2px solid #E3E4E5' }}>
+        <div className="flex items-center w-full rounded-lg" style={{ borderBottom: '2px solid #E3E4E5' }}>
           <div className="z-70 bg-black opacity-10 rounded-lg w-[262px] h-[180px] absolute" ></div>
           {
             item.image ?
@@ -33,11 +33,11 @@ export default function ContentCard({ item }: { item: ContentItems }) {
               />
           }
         </div>
-        <div className="py-2 px-3 text-sm">
-          <div className="font-bold p-1 flex items-center w-full">
+        <div className="w-full py-2 px-3 text-sm flex flex-col justify-center items-center">
+          <div className="w-5/8 font-bold py-1 px-3 flex text-center justify-center items-center rounded-full " style={{ border: '2px solid #d8d8d8' }}>
             {item?.title}
           </div>
-          <div className="p-1 flex items-center w-full">
+          <div className="p-1 flex items-center w-full pb-4">
             {item?.subtitle}
           </div>
         </div>
