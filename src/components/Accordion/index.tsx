@@ -54,7 +54,7 @@ const AccordionItem: React.FC<{ itemMenu?: any, title: string, icon?: string, ch
                     <div className={`pr-3 ${isViewed ? 'font-bold' : ''}`} onClick={() => url ? window.location.assign(url) : null}>
                         {title}
                     </div>
-                    <div className={`${isOpen && 'transform rotate-180'} ${url && 'hidden'}`}>
+                    <div className={`${isOpen && 'transform rotate-180'} flex justify-center ${url && 'hidden'}`}>
                         {<Image src={Arrow} alt="Logo" />}
                     </div>
 

@@ -30,7 +30,7 @@ export default function Menu({ fixed, showMenu }: { fixed?: boolean, showMenu?: 
 
 
     return (
-        <div className={`${menu.open ? '' : 'hidden'} ${visibleAdm && 'hidden'} bg-[rgba(100,150,161,0.4)] backdrop-blur overflow-y-auto z-70 max-sm:pt-24 pt-28  max-sm:h-[150vh] max-mxs:w-11/12 max-sm:w-11/12 w-full flex flex-col items-center text-black   ${fixed ? 'fixed' : ''} ${menu?.open ? 'max-sm:block max-sm:fixed' : 'max-sm:hidden '}`} style={{ borderRight: '4px solid #E3E4E5' }}>
+        <div className={`${menu.open ? '' : 'hidden'} ${visibleAdm && 'hidden'} pb-4 bg-[rgba(100,150,161,0.4)] backdrop-blur overflow-y-auto z-70 max-sm:pt-24 pt-28  max-sm:h-[150vh] max-mxs:w-11/12 max-sm:w-11/12 w-full flex flex-col items-center text-black   ${fixed ? 'fixed' : ''} ${menu?.open ? 'max-sm:block max-sm:fixed' : 'max-sm:hidden '}`} style={{ borderRight: '4px solid #E3E4E5' }}>
             <div className="sm:hidden pb-4 sm:pt-5 w-full flex justify-end items-end"><Image src={Close} alt='Fechar' className="mr-5 cursor-pointer" onClick={handleMenu} /></div>
             <div className="w-11/12 h-full flex flex-col justify-between">
                 <div className="w-full sm:flex">
