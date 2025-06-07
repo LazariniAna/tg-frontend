@@ -84,7 +84,9 @@ export default function Header() {
                 <span>Entrar</span>
               </div>
               <span className="text-white">|</span>
-              <div onClick={() => router.push('/usuarios/cadastro')} className="flex flex-col items-center justify-center">
+              <div onClick={() => {
+                window.location.assign('/usuarios/cadastro')
+              }} className="flex flex-col items-center justify-center">
                 <span className="text-sm">Cadastrar</span>
               </div>
             </div>
