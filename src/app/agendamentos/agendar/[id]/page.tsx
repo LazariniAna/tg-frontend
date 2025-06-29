@@ -128,7 +128,7 @@ export default function DataAgendamento() {
   useEffect(() => {
     const fetchData = async () => {
       const data = await getSchedulings();
-      const disabledDatesAux = data.filter((item: any) => item.id != params.id).map((scheduling: any) => dayjs(scheduling.data_hora));
+      const disabledDatesAux = data?.filter((item: any) => item.id != params.id).map((scheduling: any) => dayjs(scheduling.data_hora));
       setDisabledDates(disabledDatesAux)
       setLoading(false);
     };

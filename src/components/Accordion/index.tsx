@@ -1,3 +1,4 @@
+'use client'
 import React, { ReactNode, useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import Arrow from '../../assets/arrow-down-line.svg';
@@ -20,7 +21,7 @@ const AccordionItem: React.FC<{ itemMenu?: any, title: string, icon?: string, ch
     const [isOpen, setIsOpen] = useState(false);
     const [iconSelected, setIconSelected] = useState<any>(<></>);
     const [isViewed, setIsViewed] = useState<boolean>(false);
-
+    const [teacher, setTeacher] = useState(teacherSaved);
     useEffect(() => {
         switch (icon) {
             case 'users.svg':
@@ -39,10 +40,15 @@ const AccordionItem: React.FC<{ itemMenu?: any, title: string, icon?: string, ch
             setIsViewed(true)
         }
         if (url && url == window.location.pathname) setIsViewed(true)
+            setTeacher(teacherSaved)
     }, [])
 
+    useEffect(()=>{
+        setTeacher(teacherSaved)
+    },[teacherSaved])
+
     return (
-        <div className={`${itemMenu.onlyAdm && !teacherSaved.admin && 'hidden'} relative  max-sm:pt-1 pl-3 max-sm:border-t-2  max-sm:border-gray-300 sm:w-1/2`}
+        <div className={`${itemMenu.onlyAdm && !teacher.admin && 'hidden'} relative  max-sm:pt-1 pl-3 max-sm:border-t-2  max-sm:border-gray-300 sm:w-1/2`}
             onMouseLeave={() => setIsOpen(false)}
         >
 
