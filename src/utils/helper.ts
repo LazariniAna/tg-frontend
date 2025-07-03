@@ -2,33 +2,6 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { parseCookies } from "nookies";
 
-export function getBackgroundColor(acronymHypotheses: string) {
-  let color: string = '#fff';
-  switch (acronymHypotheses) {
-    case "ALF":
-      color = "#86e085"
-      break;
-    case "SAL":
-      color = "#c8ffbb"
-      break;
-    case "SCV":
-      color = "#fff5a1"
-      break;
-    case "SSV":
-      color = "#ffc9a2"
-      break;    
-    case "PRÉ":
-      color = "#ffa9b8"
-      break;
-    case 'NA':
-      color = '#fff';
-      break;
-    default:
-      break;
-  }
-  return color;
-}
-
 export async function exportToPdf(data: any, html: HTMLElement) {
   var HTML_Width = html.clientWidth;
   var HTML_Height = html.clientHeight;
@@ -50,7 +23,6 @@ export async function exportToPdf(data: any, html: HTMLElement) {
     img.src = canvas.toDataURL("image/png");
     return img
   });
-
 
   pdf.addImage(
     img1,
@@ -81,6 +53,7 @@ export function cleanMockStatusValues() {
   localStorage.setItem('statusQuestions', JSON.stringify({"status":0,"name":""}))
 
 }
+
 export function getCookie(name: string) {
   const cookies = parseCookies();
   if (cookies[name]) {

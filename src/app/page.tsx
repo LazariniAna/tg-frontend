@@ -58,7 +58,7 @@ export default function Home() {
 
             <div className="flex w-full justify-around items-start flex-wrap gap-8 mt-6 z-10 relative">
               <Link
-                href="https://www.google.com/maps/place/Col%C3%A9gio+Soberano/@-20.525464,-47.3872298,776m/data=!3m2!1e3!4b1!4m6!3m5!1s0x94b0a61379ffff45:0x400f453283f5cb0c!8m2!3d-20.525469!4d-47.3846549"
+                href="https://www.google.com/maps/place/Col%C3%A9gio+Soberano/data=!4m2!3m1!1s0x0:0x400f453283f5cb0c?sa=X&ved=1t:2428&ictx=111"
                 className="sm:max-w-2/5 sm:w-2/5 w-full flex flex-col justify-center items-center text-purpleDark shadow-lg rounded-3xl hover:scale-105 transition-transform duration-300"
                 target="_blank"
                 rel="noopener noreferrer"

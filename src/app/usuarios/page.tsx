@@ -139,6 +139,7 @@ export default function Usuario() {
         if (allowDelete && idSelected) handleDelete(idSelected);
     }, [isOpenConfirmDelete]);
 
+    //Privatizando a tela de usuários
     useEffect(() => {
         if (!teacherSaved.admin) router.replace('/')
     }, []);
