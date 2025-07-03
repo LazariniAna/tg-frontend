@@ -1,3 +1,4 @@
+'use client';
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux";
@@ -9,7 +10,7 @@ export default function ContentFixedButton({ children, cols }: { children: React
 
   useEffect(() => {
     const bearerAuth = getCookie('Bearer');
-    if (!bearerAuth){ setShowMenu(false)}else{
+    if (!bearerAuth) { setShowMenu(false) } else {
       setShowMenu(menu.visible)
     }
   }, [menu])

@@ -21,11 +21,11 @@ export default function ReduxProvider({
   }, [])
 
   return <Provider store={store}>
-    <Suspense fallback={<ApplicationSkeleton />}>
-      <AppProviders>
-        <NavigationEvents />
-        <ScrollbarStyles />
-        {/* {bearerAuth
+    {/* <Suspense fallback={<ApplicationSkeleton />}> */}
+    <AppProviders>
+      <NavigationEvents />
+      <ScrollbarStyles />
+      {/* {bearerAuth
           ?
           <Template>
             {children}
@@ -35,11 +35,11 @@ export default function ReduxProvider({
             {children}
           </div>
         } */}
-        <Template>
-          {children}
-        </Template>
-      </AppProviders>
+      <Template>
+        {children}
+      </Template>
+    </AppProviders>
 
-    </Suspense>
+    {/* </Suspense> */}
   </Provider>;
 }

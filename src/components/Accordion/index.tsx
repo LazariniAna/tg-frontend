@@ -40,12 +40,12 @@ const AccordionItem: React.FC<{ itemMenu?: any, title: string, icon?: string, ch
             setIsViewed(true)
         }
         if (url && url == window.location.pathname) setIsViewed(true)
-            setTeacher(teacherSaved)
+        setTeacher(teacherSaved)
     }, [])
 
-    useEffect(()=>{
+    useEffect(() => {
         setTeacher(teacherSaved)
-    },[teacherSaved])
+    }, [teacherSaved])
 
     return (
         <div className={`${itemMenu.onlyAdm && !teacher.admin && 'hidden'} relative  max-sm:pt-1 pl-3 max-sm:border-t-2  max-sm:border-gray-300 sm:w-1/2`}
@@ -89,15 +89,15 @@ const ChildrenAccordion: React.FC<{ title: string, url?: string, isChildDisabled
     }
 
     return (
-        <div className={`relative ${menuChildren.onlyAdm && !teacherSaved.admin && 'hidden'}`} >
-            <p className='sm:text-center max-sm:pl-3 py-2 '>
+        <div className={`relative ${menuChildren.onlyAdm && !teacherSaved.admin && 'hidden'} flex justify-center items-center`} >
+            <span className='sm:text-center max-sm:pl-3 py-2 '>
                 {isChildDisabled ?
                     <div className="absolute inset-0 bg-lightGray opacity-50 z-50 " ></div>
                     : null}
                 <Link href={url || '/'} onClick={handleMenu} className={`${window.location.pathname == url?.toString() ? 'font-bold' : ''}`}>
                     {title}
                 </Link>
-            </p>
+            </span>
         </div>
     );
 };

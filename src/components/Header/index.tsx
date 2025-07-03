@@ -69,7 +69,7 @@ export default function Header() {
                     destroyCookie(null, "Bearer");
                     setUser(null)
                     localStorage.removeItem('user_soberano')
-                    setTimeout(() => window.location.assign('/login'), 500)
+                    setTimeout(() => window.location.assign('/login'), 1000)
 
                   }} >
                     <Image src={Out} alt="Logo usuário" />

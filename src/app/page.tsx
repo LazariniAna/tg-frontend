@@ -51,7 +51,7 @@ export default function Home() {
             <div className="flex w-full justify-around items-start z-10 relative">
               <div className="w-full flex flex-col justify-center items-center">
                 <h1 className="text-4xl font-bold text-center text-gray-700">
-                  <span style={baloo_2.style}>Há mais de 19 anos formando cidadãos para o <p className="text-purpleDark">futuro.</p></span>
+                  <span style={baloo_2.style}>Há mais de 19 anos formando cidadãos para o <span className="text-purpleDark">futuro.</span></span>
                 </h1>
               </div>
             </div>
@@ -70,11 +70,11 @@ export default function Home() {
                 />
                 <div className="flex text-center items-center mt-4">
                   <h1 className="text-2xl mr-2 font-bold">Endereço -</h1>
-                  <p className="mr-2 italic underline">Rua Rio Grande do Sul, 867, Vila aparecida, Franca-SP</p>
+                  <span className="mr-2 italic underline">Rua Rio Grande do Sul, 867, Vila aparecida, Franca-SP</span>
                 </div>
-                <p className="text-center mb-6 px-4">
+                <span className="text-center mb-6 px-4">
                   Uma estrutura completa para alunos do maternal ao nono ano, com espaços modernos e seguros.
-                </p>
+                </span>
               </Link>
 
               <div
@@ -89,11 +89,11 @@ export default function Home() {
                 />
                 <div className="flex text-center items-center mt-4">
                   <h1 className="text-2xl mr-2 font-bold">É Sistema de Ensino COC -</h1>
-                  <p className="mr-2">o futuro está ao seu alcance!</p>
+                  <span className="mr-2">o futuro está ao seu alcance!</span>
                 </div>
-                <p className="text-center mb-12 px-4">
+                <span className="text-center mb-12 px-4">
                   Garanta uma evolução de qualidade e inovadora.
-                </p>
+                </span>
               </div>
             </div>
           </div>
@@ -103,15 +103,15 @@ export default function Home() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">
               <div className="bg-purple-100 p-6 rounded-xl shadow-md bg-gradient-animated text-white">
                 <h3 className="font-semibold mb-3">Equipe Qualificada</h3>
-                <p>Professores experientes e apaixonados por educação, dedicados ao desenvolvimento integral dos alunos.</p>
+                <span>Professores experientes e apaixonados por educação, dedicados ao desenvolvimento integral dos alunos.</span>
               </div>
               <div className="bg-purple-100 p-6 rounded-xl shadow-md bg-gradient-animated text-white">
                 <h3 className="font-semibold mb-3">Infraestrutura Moderna</h3>
-                <p>Salas de aula equipadas, laboratórios de informática, biblioteca e espaços para atividades esportivas.</p>
+                <span>Salas de aula equipadas, laboratórios de informática, biblioteca e espaços para atividades esportivas.</span>
               </div>
               <div className="bg-purple-100 p-6 rounded-xl shadow-md bg-gradient-animated text-white">
                 <h3 className="font-semibold mb-3">Metodologia Inovadora</h3>
-                <p>Aprendizado ativo e colaborativo, que estimula pensamento crítico e criatividade em todas as idades.</p>
+                <span>Aprendizado ativo e colaborativo, que estimula pensamento crítico e criatividade em todas as idades.</span>
               </div>
             </div>
           </section>
@@ -124,7 +124,7 @@ export default function Home() {
                   key={name}
                   className="border-l-4 border-purpleDark pl-4 italic text-gray-700 bg-purple-50 rounded-lg p-4 shadow-md "
                 >
-                  <p className="!bg-white">"{message}"</p>
+                  <span className="!bg-white">"{message}"</span>
                   <footer className="mt-2 font-semibold text-right text-purpleDark">
                     — {name}
                   </footer>
@@ -167,8 +167,8 @@ export default function Home() {
 
       <footer className="w-full bg-gradient-animated-10s text-white p-8 flex flex-col items-center gap-4 rounded-t-2xl z-30">
         <h2 className="text-xl font-bold">Colégio Soberano</h2>
-        <p>Rua Rio Grande do Sul, 867, Vila aparecida, Franca-SP, Brazil 14401-324</p>
-        <p>Telefone: (16) 1234-5678 | Email: contato@colegiosoberano.com.br</p>
+        <span>Rua Rio Grande do Sul, 867, Vila aparecida, Franca-SP, Brazil 14401-324</span>
+        <span>Telefone: (16) 1234-5678 | Email: contato@colegiosoberano.com.br</span>
         <div className="flex gap-6 text-xl">
           <a href="https://facebook.com/colegiosoberano" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
             <i className="fab fa-facebook"></i> Facebook
@@ -177,7 +177,7 @@ export default function Home() {
             <i className="fab fa-instagram"></i> Instagram
           </a>
         </div>
-        <p className="text-sm mt-4">&copy; 2025 Colégio Soberano. Todos os direitos reservados.</p>
+        <span className="text-sm mt-4">&copy; 2025 Colégio Soberano. Todos os direitos reservados.</span>
       </footer>
 
       {loading && <LoadingOverlay />}

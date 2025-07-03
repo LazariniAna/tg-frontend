@@ -1,3 +1,4 @@
+'use client';
 import { useState, useEffect } from 'react';
 import Close from "../../assets/close.svg";
 import Image from 'next/image';
@@ -49,12 +50,12 @@ const ConfirmModal = ({ isOpenModal, setIsOpenModal, allow, setAllow }: { isOpen
                         Essa ação perderá as alterações realizadas.
                     </div>
                     <div className='flex max-xs:flex-col max-xs:items-center w-10/12 justify-between'>
-                        <Button type="button" size="small" color="white" style={{ border: '2px solid black', minWidth:'176px', margin:'4px' }} onClick={() => {
+                        <Button type="button" size="small" color="white" style={{ border: '2px solid black', minWidth: '176px', margin: '4px' }} onClick={() => {
                             allowNext(false)
-                            }}>
+                        }}>
                             CANCELAR
                         </Button>
-                        <Button type="button" size="small" color="black" fill='filled' style={{ border: '2px solid black', minWidth:'176px', margin:'4px' }} onClick={() => allowNext(true)}>
+                        <Button type="button" size="small" color="black" fill='filled' style={{ border: '2px solid black', minWidth: '176px', margin: '4px' }} onClick={() => allowNext(true)}>
                             PROSSEGUIR
                         </Button>
                     </div>

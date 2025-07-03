@@ -2,10 +2,10 @@ import { StylesConfig } from "react-select";
 import { Contents } from "./types";
 
 //Variável com os dados do usuário que está no local storage (verifico se é admin) - Usa pra privatizar
-export const teacherSaved =
-  typeof window !== 'undefined'
-    ? JSON.parse(localStorage.getItem('user_soberano') || '{}')
-    : {};
+export const teacherSaved = JSON.parse(localStorage.getItem('user_soberano') || '{}')
+// typeof window !== 'undefined'
+//   ? JSON.parse(localStorage.getItem('user_soberano') || '{}')
+//   : {};
 
 export const customStyles: StylesConfig<any, true> = {
   control: (provided: any, state: any) => ({

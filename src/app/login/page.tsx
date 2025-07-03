@@ -37,6 +37,12 @@ export default function Login() {
   const formikRef = useRef<FormikProps<any> | null>(null);
 
   useLayoutEffect(() => {
+    destroyCookie(null, "Bearer");
+    setUser(null)
+    localStorage.removeItem('user_soberano')
+  }, [])
+
+  useLayoutEffect(() => {
     document.title = "Login | Colégio Soberano"
     const bearerAuth = getCookie('Bearer');
     if (bearerAuth) router.push('/')
